@@ -1,0 +1,9 @@
+.services-section { padding-block:clamp(4.5rem,9vw,7.5rem); background:var(--bg-primary); }
+.services-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.service-card { padding:1.6rem; border:1px solid var(--border); border-radius:.9rem; background:var(--bg-card); box-shadow:var(--shadow-soft); }
+.service-icon { display:grid; width:2.8rem; height:2.8rem; place-items:center; margin-bottom:1.1rem; border-radius:.7rem; color:var(--accent); background:var(--accent-soft); }
+.service-icon svg { width:1.45rem; height:1.45rem; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.service-card h3 { margin:0 0 .65rem; font-size:1.2rem; }
+.service-card p { color:var(--text-muted); line-height:1.6; }
+.service-card ul { display:grid; gap:.55rem; margin:1rem 0 0; padding:1rem 0 0 1.15rem; border-top:1px solid var(--border); color:var(--text-muted); line-height:1.55; }
+@media(max-width:700px){.services-grid{grid-template-columns:1fr}}

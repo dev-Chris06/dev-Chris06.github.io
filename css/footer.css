@@ -1,0 +1,15 @@
+.site-footer { padding:3rem 0 1.5rem; color:#f4f6fb; background:#14284a; }
+.footer-grid { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:2rem; }
+.footer-logo { display:inline-grid; width:2.8rem; height:2.8rem; place-items:center; border:1px solid #a8c5b3; border-radius:.65rem; color:#fff; font-weight:750; text-decoration:none; }
+.footer-tagline { max-width:24ch; color:#d1ded5; line-height:1.6; }
+.footer-col-title { margin:0 0 .9rem; color:#fff; font-size:.95rem; }
+.footer-links ul { display:grid; gap:.55rem; margin:0; padding:0; list-style:none; }
+.footer-link,.footer-social-link { color:#e0e9e2; text-decoration:none; }
+.footer-link:hover,.footer-social-link:hover { color:#fff; text-decoration:underline; text-underline-offset:3px; }
+.footer-social-icons { display:flex; flex-wrap:wrap; gap:1rem; }
+.footer-social-link { min-height:2.8rem; display:inline-flex; align-items:center; }
+.footer-social-link.social-button { color:var(--text-primary); background:var(--bg-card); }
+.footer-social-link.social-button:hover { color:var(--text-primary); }
+.footer-sep { margin:2rem auto 1rem; border:0; border-top:1px solid rgba(255,255,255,.2); }
+.footer-copy { margin:0; color:#d1ded5; text-align:center; font-size:.85rem; }
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}}

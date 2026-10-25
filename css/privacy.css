@@ -1,0 +1,10 @@
+.privacy-nav { gap:1rem; }
+.privacy-nav-actions { display:flex; align-items:center; gap:1rem; }
+.privacy-content { min-height:calc(100vh - 5rem); padding-block:clamp(4rem,8vw,7rem); }
+.privacy-content > .section-title { max-width:20ch; }
+.privacy-lead { max-width:64ch; margin:1rem 0 2.5rem; color:var(--text-muted); font-size:1.1rem; line-height:1.7; }
+.privacy-content section { max-width:68ch; margin-top:2rem; }
+.privacy-content section h2 { margin:0 0 .5rem; font-size:1.15rem; }
+.privacy-content section p { color:var(--text-muted); line-height:1.75; }
+.privacy-content section > a { display:inline-block; margin-top:.4rem; }
+@media(max-width:640px){.privacy-nav-actions{gap:.55rem}.privacy-nav-actions>.nav-link{font-size:.82rem}.privacy-content{padding-block:3rem}}
