@@ -258,7 +258,14 @@ Le site est conçu pour que **tout le contenu bilingue** pivote autour de `lang.
 - **SEO / partage** : `assets/img/og-image.png` (1200×630) + `twitter:card` sur l’accueil et la page confidentialité ; canonical ajouté sur la page confidentialité. Les métadonnées *par projet* restent à traiter avec les futures captures (pages fiches volontairement non modifiées).
 - **Hygiène** : suppression du code mort (`data-stop-nav`, `data-i18n-role`, `.fade-in`, `.about-facts`, `projects.noResult`, `detail.imageCaption`, clés `about.fact.*`) ; bloc year du footer géré uniquement par `lang.js` ; `projects.js` retiré de la page confidentialité ; `onclick` inline remplacés par `initLanguageSwitch()`.
 
-## 11. Contact
+## 11. Licence
+
+Le code est publié sous licence MIT (voir [LICENSE](LICENSE)).
+
+Les textes du site, ma présentation personnelle, mon nom et le logo « CG » ne
+sont pas couverts par cette licence : ils ne peuvent pas être réutilisés.
+
+## 12. Contact
 
 **Mahudjro Shridara Christopher AHO GLELE**  
 GitHub : [https://github.com/dev-Chris06](https://github.com/dev-Chris06)
