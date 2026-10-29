@@ -7,7 +7,7 @@ const projects = [
   {
     id: 1,
     slug: "site-restaurant",
-    order: 3,
+    order: 5,
     title: { fr: "Le Réconfort — site de restaurant", en: "Le Réconfort — Restaurant Website" },
     kind: { fr: "Site vitrine", en: "Showcase website" },
     description: {
@@ -38,7 +38,7 @@ const projects = [
   {
     id: 2,
     slug: "site-vitrine",
-    order: 4,
+    order: 6,
     title: { fr: "Bénin Tech Labs — site vitrine", en: "Bénin Tech Labs — Showcase Website" },
     kind: { fr: "Site multipage", en: "Multipage website" },
     description: {
@@ -128,6 +128,68 @@ const projects = [
     cover: "clinic",
     github: "https://github.com/dev-Chris06/Systeme_de_Gestion_de_Clinique",
     demo: null
+  },
+  {
+    id: 5,
+    slug: "loady",
+    order: 3,
+    title: { fr: "Loady", en: "Loady" },
+    kind: { fr: "Application Android et site de présentation", en: "Android app and landing site" },
+    description: {
+      fr: "Application Android qui télécharge en local les vidéos publiques de plusieurs plateformes, sans compte ni serveur, et son site de présentation.",
+      en: "Android app that downloads public videos from several platforms to the device, with no account or server, and its landing site."
+    },
+    overview: {
+      fr: "Loady est une application Android menée à deux. Elle télécharge sur le téléphone les vidéos publiques de YouTube, TikTok, Instagram et d’autres plateformes, sans compte, sans serveur Loady et sans synchronisation cloud. J’ai réalisé le site de présentation et je contribue au développement de l’application.",
+      en: "Loady is an Android app built by a team of two. It downloads public videos from YouTube, TikTok, Instagram, and other platforms to the phone, with no account, no Loady server, and no cloud sync. I built the landing site and contribute to the app’s development."
+    },
+    highlights: {
+      fr: ["Liens de huit plateformes reconnus, par collage ou partage Android.", "Choix du format (MP4, WebM ou MP3) parmi les qualités réellement disponibles.", "Téléchargement en arrière-plan avec notification et nouvelles tentatives en cas de coupure réseau.", "Site de présentation avec thèmes clair et sombre et téléchargement de l’APK."],
+      en: ["Links from eight platforms recognized, by pasting or Android sharing.", "Format choice (MP4, WebM, or MP3) among the qualities actually available.", "Background downloads with a notification and retries if the network drops.", "Landing site with light and dark themes and an APK download."]
+    },
+    technical: {
+      fr: "L’application est développée en Flutter, avec du Kotlin côté Android, et s’appuie sur yt-dlp pour extraire les vidéos. Le site de présentation est un site statique Astro avec Tailwind CSS, déployé sur Vercel ; son code est dans un dépôt séparé.",
+      en: "The app is built with Flutter, with Kotlin on the Android side, and relies on yt-dlp to extract videos. The landing site is a static Astro site with Tailwind CSS, deployed on Vercel; its code lives in a separate repository."
+    },
+    note: {
+      fr: "Le dépôt de l’application est hébergé sur le compte de mon binôme ; le code du site de présentation est sur github.com/dev-Chris06/loady-site. Seules les vidéos publiques sont prises en charge : les contenus protégés (DRM) sont refusés.",
+      en: "The app repository is hosted on my teammate’s account; the landing site code is at github.com/dev-Chris06/loady-site. Only public videos are supported: protected (DRM) content is refused."
+    },
+    tags: ["Flutter", "Kotlin", "Astro", "Tailwind CSS"],
+    cover: "mobile",
+    github: "https://github.com/DazBot13-boopt/dazdownloader",
+    demo: "https://loady-site.vercel.app"
+  },
+  {
+    id: 6,
+    slug: "digitech",
+    order: 4,
+    title: { fr: "DIGITECH — site d’agence", en: "DIGITECH — Agency Website" },
+    kind: { fr: "Site vitrine bilingue", en: "Bilingual showcase website" },
+    description: {
+      fr: "Site vitrine d’une agence de digitalisation, réalisé seul lors d’un projet tutoré, en français et en anglais.",
+      en: "Showcase website for a digital agency, built on my own during a supervised project, in French and English."
+    },
+    overview: {
+      fr: "DIGITECH est une agence fictive créée pour un projet tutoré : l’équipe devait fonctionner comme une vraie agence et répondre au besoin d’un client. J’y occupais le rôle de responsable technique et j’ai réalisé seul l’intégralité du site, de la structure des pages à la mise en ligne.",
+      en: "DIGITECH is a fictional agency created for a supervised project: the team had to operate like a real agency and meet a client’s needs. I was the technical lead and built the entire website on my own, from page structure to deployment."
+    },
+    highlights: {
+      fr: ["Accueil avec services, méthode de travail, réalisations et contact.", "Page équipe, page 404, mentions légales et politique de confidentialité.", "Traduction français / anglais avec sélecteur de langue.", "Formulaire de contact relié à Formspree."],
+      en: ["Home page with services, work method, portfolio, and contact.", "Team page, 404 page, legal notice, and privacy policy.", "French / English translation with a language switcher.", "Contact form connected to Formspree."]
+    },
+    technical: {
+      fr: "Le site est réalisé en HTML, CSS et JavaScript natif, sans framework. Les traductions sont regroupées dans un fichier dédié et appliquées par JavaScript au changement de langue. Il est hébergé sur Netlify, avec robots.txt, sitemap et balises Open Graph.",
+      en: "The site uses HTML, CSS, and vanilla JavaScript, with no framework. Translations are grouped in a dedicated file and applied with JavaScript when the language changes. It is hosted on Netlify, with robots.txt, a sitemap, and Open Graph tags."
+    },
+    note: {
+      fr: "Projet tutoré : l’agence, ses coordonnées et ses réseaux sociaux ont été créés pour l’exercice.",
+      en: "Supervised project: the agency, its contact details, and its social accounts were created for the exercise."
+    },
+    tags: ["HTML", "CSS", "JavaScript"],
+    cover: "agency",
+    github: "https://github.com/dev-Chris06/digitech-site",
+    demo: "https://digitechagence.netlify.app/"
   }
 ];
 
