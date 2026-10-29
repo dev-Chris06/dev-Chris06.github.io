@@ -13,6 +13,8 @@
 .project-cover--clinic { color:#14366b; background:linear-gradient(135deg,#d5e3fa,#a9c4ee 65%,#e1eaf8); }
 .project-cover--restaurant { color:#512f1d; background:linear-gradient(135deg,#f0dfc5,#d8b88e 65%,#e9d7bf); }
 .project-cover--company { color:#eef3ff; background:linear-gradient(135deg,#253655,#526b91 65%,#8999b4); }
+.project-cover--mobile { color:#e6edff; background:linear-gradient(135deg,#0b1730,#1d3f8f 62%,#3563d8); }
+.project-cover--agency { color:#123b2a; background:linear-gradient(135deg,#d6efe1,#9fd3b6 65%,#e0f2e8); }
 .cover-label { align-self:flex-start; max-width:80%; padding:.4rem .65rem; border:1px solid currentColor; border-radius:99px; font-size:.72rem; font-weight:650; letter-spacing:.04em; }
 .cover-title { max-width:14ch; font-family:Georgia,"Times New Roman",serif; font-size:clamp(1.7rem,3.8vw,2.6rem); line-height:1.05; font-weight:600; }
 .project-body { padding:1.4rem 1.5rem 1.5rem; }
