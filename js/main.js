@@ -28,8 +28,8 @@ function buildDemoButtonHtml(project, t) {
     return "";
   }
   return (
-    `<a class="btn-demo" href="${escapeHtml(project.demo)}" target="_blank" rel="noopener" ` +
-    `data-stop-nav="true">${escapeHtml(t("demo"))}</a>`
+    `<a class="btn-demo" href="${escapeHtml(project.demo)}" target="_blank" rel="noopener">` +
+    `${escapeHtml(t("demo"))}</a>`
   );
 }
 
@@ -42,13 +42,13 @@ function buildDemoButtonHtml(project, t) {
 function buildGithubButtonHtml(project, t) {
   if (project.github === "#") {
     return (
-      `<a class="btn-gh is-disabled" href="#" aria-disabled="true" ` +
-      `data-stop-nav="true">${escapeHtml(t("github"))}</a>`
+      `<a class="btn-gh is-disabled" href="#" aria-disabled="true">` +
+      `${escapeHtml(t("github"))}</a>`
     );
   }
   return (
-    `<a class="btn-gh" href="${escapeHtml(project.github)}" target="_blank" rel="noopener" ` +
-    `data-stop-nav="true">${escapeHtml(t("github"))}</a>`
+    `<a class="btn-gh" href="${escapeHtml(project.github)}" target="_blank" rel="noopener">` +
+    `${escapeHtml(t("github"))}</a>`
   );
 }
 
@@ -60,8 +60,8 @@ function buildGithubButtonHtml(project, t) {
  */
 function buildDetailButtonHtml(hrefDetail, t) {
   return (
-    `<a class="btn-detail" href="${escapeHtml(hrefDetail)}" ` +
-    `data-stop-nav="true">${escapeHtml(t("details"))}</a>`
+    `<a class="btn-detail" href="${escapeHtml(hrefDetail)}">` +
+    `${escapeHtml(t("details"))}</a>`
   );
 }
 
@@ -75,7 +75,7 @@ function buildDetailButtonHtml(hrefDetail, t) {
 function buildProjectCardHtml(project, lang, t) {
   const title = project.title[lang] || project.title.fr;
   const description = project.description[lang] || project.description.fr;
-  const hrefDetail = `project-detail.html?id=${encodeURIComponent(project.slug)}`;
+  const hrefDetail = `projets/${encodeURIComponent(project.slug)}.html`;
   const tags = project.tags
     .map((tag) => `<span class="project-tag">${escapeHtml(tag)}</span>`)
     .join("");
@@ -85,9 +85,8 @@ function buildProjectCardHtml(project, lang, t) {
   const detailBlock = buildDetailButtonHtml(hrefDetail, t);
 
   return `
-    <article class="project-card" data-slug="${escapeHtml(project.slug)}"
-      data-i18n-role="card">
-      <div class="project-cover project-cover--${escapeHtml(project.cover)}" aria-hidden="true">
+    <article class="project-card" data-slug="${escapeHtml(project.slug)}">
+      <div class="project-cover project-cover--${escapeHtml(project.cover)}" style="view-transition-name: cover-${escapeHtml(project.slug)}" aria-hidden="true">
         <span class="cover-label">${escapeHtml(project.kind[lang] || project.kind.fr)}</span>
         <span class="cover-title">${escapeHtml(title)}</span>
       </div>
@@ -103,7 +102,7 @@ function buildProjectCardHtml(project, lang, t) {
 
 /**
  * Lit une traduction projects.* clé simple (suffixe).
- * @param {string} keySuffix - e.g. noResult, demo
+ * @param {string} keySuffix - e.g. notFound, demo
  * @returns {string} Texte
  */
 function projectLabel(keySuffix) {
@@ -121,29 +120,12 @@ function projectLabel(keySuffix) {
 function renderProjects() {
   try {
     const grid = document.querySelector("#projects-grid");
-    const empty = document.querySelector("#projects-no-result");
     if (!grid) {
       return;
     }
     const lang = localStorage.getItem("lang") === "en" ? "en" : "fr";
     const t = (s) => projectLabel(s);
-    const list = projects;
-
-    if (empty) {
-      empty.classList.toggle("is-hidden", list.length > 0);
-    }
-
-    if (!list.length) {
-      grid.innerHTML = "";
-      if (empty) {
-        empty.textContent = t("noResult");
-      }
-      return;
-    }
-
-    const html = list.map((p) => buildProjectCardHtml(p, lang, t)).join("");
-    grid.innerHTML = html;
-
+    grid.innerHTML = projects.map((p) => buildProjectCardHtml(p, lang, t)).join("");
   } catch (error) {
     handleError("renderProjects", error);
   }
@@ -273,7 +255,8 @@ function fillProjectCtas(found, t) {
 }
 
 /**
- * Rempli la page project-detail.html à partir de ?id=slug
+ * Rempli la fiche projet (projets/<slug>.html) dans la langue active.
+ * Le slug vient de l’attribut data-project du body ; le HTML généré contient déjà la version FR.
  */
 function initProjectDetail() {
   try {
@@ -287,8 +270,7 @@ function initProjectDetail() {
     }
     mainEl.classList.remove("is-hidden");
 
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("id");
+    const slug = document.body.dataset.project;
     const found = projects.find((p) => p.slug === slug);
     const lang = localStorage.getItem("lang") === "en" ? "en" : "fr";
     const t = (s) => projectLabel(s);
@@ -310,8 +292,6 @@ function initProjectDetail() {
     if (ogTitle) ogTitle.setAttribute("content", `${title} | Christopher AHO GLELE`);
     const ogDescription = document.querySelector('meta[property="og:description"]');
     if (ogDescription) ogDescription.setAttribute("content", description.slice(0, 200));
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute("content", window.location.href);
   } catch (error) {
     handleError("initProjectDetail", error);
   }
@@ -395,6 +375,19 @@ function applyLanguage(lang) {
   updateThemeToggleLabel();
 }
 
+/**
+ * Attache les boutons du sélecteur de langue (FR/EN).
+ * Remplace les attributs onclick inline pour un attachement homogène
+ * et une compatibilité avec une éventuelle Content-Security-Policy.
+ */
+function initLanguageSwitch() {
+  document.querySelectorAll("[data-lang]").forEach((button) => {
+    button.addEventListener("click", () => {
+      applyLanguage(button.getAttribute("data-lang"));
+    });
+  });
+}
+
 function updateThemeToggleLabel() {
   const button = document.querySelector("[data-theme-toggle]");
   const label = button?.querySelector("[data-theme-label]");
@@ -436,6 +429,45 @@ function initBackToTop() {
   });
 }
 
+/**
+ * Fait apparaître les blocs au défilement, une seule fois chacun.
+ * Seuls les blocs encore sous l’écran sont masqués : rien ne clignote au chargement,
+ * et sans JavaScript, IntersectionObserver ou avec réduction des animations, tout reste visible.
+ */
+function initReveal() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion || !("IntersectionObserver" in window)) return;
+
+  const targets = document.querySelectorAll(
+    ".section-heading-row, .about-grid, .skills-layout, .service-card, .project-card, .contact-grid, " +
+    ".project-overview-layout, .project-detail-card, .project-note"
+  );
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const element = entry.target;
+      // Retire les classes après l’apparition pour rendre la main aux effets de survol existants.
+      element.addEventListener("transitionend", function cleanup(event) {
+        if (event.target !== element || event.propertyName !== "transform") return;
+        element.removeEventListener("transitionend", cleanup);
+        element.classList.remove("reveal", "is-revealed");
+        element.style.removeProperty("--reveal-delay");
+      });
+      element.classList.add("is-revealed");
+      observer.unobserve(element);
+    });
+  }, { rootMargin: "0px 0px -8% 0px" });
+
+  targets.forEach((element) => {
+    if (element.getBoundingClientRect().top < window.innerHeight) return;
+    // Léger décalage entre cartes voisines d’une même grille.
+    const siblings = Array.from(element.parentElement.children);
+    element.style.setProperty("--reveal-delay", `${(siblings.indexOf(element) % 2) * 80}ms`);
+    element.classList.add("reveal");
+    observer.observe(element);
+  });
+}
+
 window.renderProjects = renderProjects;
 window.applyLanguage = applyLanguage;
 
@@ -449,11 +481,8 @@ document.addEventListener("DOMContentLoaded", () => {
     handleError("initBurgerMenu", error);
   }
 
+  initLanguageSwitch();
   initThemeToggle();
   initBackToTop();
-
-  const yearEl = document.getElementById("footer-year");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
+  initReveal();
 });

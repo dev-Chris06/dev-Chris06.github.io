@@ -7,6 +7,7 @@ const projects = [
   {
     id: 1,
     slug: "site-restaurant",
+    order: 3,
     title: { fr: "Le Réconfort — site de restaurant", en: "Le Réconfort — Restaurant Website" },
     kind: { fr: "Site vitrine", en: "Showcase website" },
     description: {
@@ -37,6 +38,7 @@ const projects = [
   {
     id: 2,
     slug: "site-vitrine",
+    order: 4,
     title: { fr: "Bénin Tech Labs — site vitrine", en: "Bénin Tech Labs — Showcase Website" },
     kind: { fr: "Site multipage", en: "Multipage website" },
     description: {
@@ -62,12 +64,13 @@ const projects = [
     tags: ["HTML", "CSS", "JavaScript"],
     cover: "company",
     github: "https://github.com/dev-Chris06/site-entreprise",
-    demo: "https://dev-chris06.github.io/site-entreprise/"
+    demo: "https://dev-Chris06.github.io/site-entreprise/"
   },
 
   {
     id: 3,
     slug: "password-manager",
+    order: 1,
     title: { fr: "Password Manager", en: "Password Manager" },
     kind: { fr: "Application web full stack", en: "Full-stack web application" },
     description: {
@@ -98,6 +101,7 @@ const projects = [
   {
     id: 4,
     slug: "clinic-management-system",
+    order: 2,
     title: { fr: "Système de Gestion de Clinique", en: "Clinic Management System" },
     kind: { fr: "Application métier full stack", en: "Full-stack business application" },
     description: {
@@ -127,8 +131,5 @@ const projects = [
   }
 ];
 
-// Les applications métier apparaissent en premier, en cohérence avec l’offre principale.
-projects.sort((a, b) => {
-  const order = ["password-manager", "clinic-management-system", "site-restaurant", "site-vitrine"];
-  return order.indexOf(a.slug) - order.indexOf(b.slug);
-});
+// Ordre d’affichage : les projets les plus solides d’abord (champ `order`, croissant).
+projects.sort((a, b) => a.order - b.order);

@@ -16,8 +16,17 @@
       content="Découvrez les applications web, projets et services de Christopher AHO GLELE, développeur Full Stack au Bénin."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://dev-chris06.github.io/" />
-    <link rel="canonical" href="https://dev-chris06.github.io/" />
+    <meta property="og:url" content="https://dev-Chris06.github.io/" />
+    <meta
+      property="og:image"
+      content="https://dev-Chris06.github.io/assets/img/og-image.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://dev-Chris06.github.io/assets/img/og-image.png"
+    />
+    <link rel="canonical" href="https://dev-Chris06.github.io/" />
     <meta name="theme-color" content="#f7f6f2" />
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <script>
@@ -54,6 +63,7 @@
     <link rel="stylesheet" href="./css/services.css" />
     <link rel="stylesheet" href="./css/contact.css" />
     <link rel="stylesheet" href="./css/footer.css" />
+    <link rel="stylesheet" href="./css/motion.css" />
   </head>
   <body>
     <a class="skip-link" href="#main-content" data-i18n="nav.skip">Passer au contenu</a>
@@ -116,7 +126,6 @@
                 type="button"
                 data-lang="fr"
                 aria-pressed="true"
-                onclick="applyLanguage('fr')"
               >
                 FR
               </button>
@@ -124,7 +133,6 @@
                 type="button"
                 data-lang="en"
                 aria-pressed="false"
-                onclick="applyLanguage('en')"
               >
                 EN
               </button>
@@ -143,16 +151,12 @@
           <p class="hero-eyebrow" data-i18n="hero.eyebrow">Christopher AHO GLELE · Développeur Full Stack</p>
           <h1 class="hero-title" data-i18n="hero.title">Applications web.<br />Automatisations utiles.</h1>
           <p class="hero-description" data-i18n="hero.description">
-            Je conçois des outils web et des automatisations adaptés aux activités des entreprises au Bénin et à l’international.
+            Je développe des applications web et des automatisations adaptées aux opérations de votre entreprise — au Bénin et à l’international.
           </p>
           <div class="hero-actions">
-            <a
-              class="btn-primary hero-cta"
-              href="#projects"
-              data-i18n="hero.cta.projects"
-              data-i18n-aria="hero.cta.projects"
-            >
-              Voir les projets <span aria-hidden="true">↘</span>
+            <a class="btn-primary hero-cta" href="#projects">
+              <span data-i18n="hero.cta.projects">Voir les projets</span>
+              <span aria-hidden="true">↘</span>
             </a>
             <a
               class="btn-outline hero-cta"
@@ -185,13 +189,6 @@
             </div>
             <p class="section-intro" data-i18n="projects.intro">Applications web et sites vitrines, décrits selon ce qui existe réellement dans chaque dépôt.</p>
           </div>
-          <p
-            id="projects-no-result"
-            class="projects-no-result is-hidden"
-            data-i18n="projects.noResult"
-          >
-            Aucun projet dans cette catégorie
-          </p>
           <div
             id="projects-grid"
             class="projects-grid"
@@ -267,7 +264,7 @@
           <div class="contact-info">
             <h2 class="section-title" data-i18n="contact.title">Contact</h2>
             <p class="contact-subtitle" data-i18n="contact.subtitle">
-              Une idée de projet ? Discutons-en pour bâtir la bonne solution.
+              Parlons de votre projet : site web, automatisation ou landing page, je peux vous aider.
             </p>
             <ul class="contact-list" role="list">
               <li>
@@ -285,7 +282,7 @@
               <li>
                 <a
                   class="contact-link social-button social-button--whatsapp"
-                  href="https://wa.me/+2290143504496"
+                  href="https://wa.me/2290143504496"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-i18n-aria="contact.ariaWhatsapp"
@@ -425,7 +422,7 @@
             >CG</a
           >
           <p class="footer-tagline" data-i18n="footer.tagline">
-            Applications web full stack &amp; automatisation
+            Applications web full stack &amp; automatisation pour les entreprises.
           </p>
         </div>
         <div class="footer-links">
@@ -485,7 +482,7 @@
             </a>
             <a
               class="footer-social-link social-button social-button--whatsapp"
-              href="https://wa.me/+2290143504496"
+              href="https://wa.me/2290143504496"
               target="_blank"
               rel="noopener noreferrer"
               data-i18n-aria="footer.ariaWhatsapp"
