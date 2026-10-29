@@ -422,7 +422,8 @@ function initBackToTop() {
     button.hidden = window.scrollY < 480;
   };
   window.addEventListener("scroll", syncVisibility, { passive: true });
-  syncVisibility();
+  // Lecture de scrollY reportée à la prochaine frame pour ne pas forcer un calcul de mise en page au chargement.
+  requestAnimationFrame(syncVisibility);
   button.addEventListener("click", () => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
@@ -458,8 +459,10 @@ function initReveal() {
     });
   }, { rootMargin: "0px 0px -8% 0px" });
 
-  targets.forEach((element) => {
-    if (element.getBoundingClientRect().top < window.innerHeight) return;
+  // Toutes les lectures de position d’abord, puis les écritures : un seul calcul de mise en page.
+  const viewportHeight = window.innerHeight;
+  const belowFold = Array.from(targets).filter((element) => element.getBoundingClientRect().top >= viewportHeight);
+  belowFold.forEach((element) => {
     // Léger décalage entre cartes voisines d’une même grille.
     const siblings = Array.from(element.parentElement.children);
     element.style.setProperty("--reveal-delay", `${(siblings.indexOf(element) % 2) * 80}ms`);
@@ -484,5 +487,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initLanguageSwitch();
   initThemeToggle();
   initBackToTop();
-  initReveal();
+  requestAnimationFrame(initReveal);
 });
