@@ -1,0 +1,77 @@
+/* Animations sobres : entrée du hero, apparition au défilement, transitions de page.
+   Tout est désactivé avec prefers-reduced-motion. Le contenu reste visible sans JavaScript :
+   seul js/main.js (initReveal) masque les blocs à révéler. */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Transition entre pages (Chrome, Edge, Safari récents ; sans effet ailleurs). */
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 220ms;
+  }
+
+  ::view-transition-group(*) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(.2, .7, .2, 1);
+  }
+
+  /* Entrée du hero : le titre (élément LCP) s'affiche tout de suite, le reste suit. */
+  .hero-eyebrow,
+  .hero-description,
+  .hero-actions {
+    animation: fade-up 520ms cubic-bezier(.2, .7, .2, 1) both;
+  }
+  .hero-description { animation-delay: 90ms; }
+  .hero-actions { animation-delay: 160ms; }
+
+  /* Apparition au défilement, classes posées par initReveal. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 480ms ease, transform 480ms cubic-bezier(.2, .7, .2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Micro-interactions au survol. */
+  .service-card {
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .service-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+
+  .skills-list li {
+    transition: border-color .16s ease, color .16s ease;
+  }
+  .skills-list li:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-cta [aria-hidden="true"] {
+    display: inline-block;
+    transition: transform .18s ease;
+  }
+  .hero-cta:hover [aria-hidden="true"] {
+    transform: translate(2px, 2px);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

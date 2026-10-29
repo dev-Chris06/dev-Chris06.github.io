@@ -16,6 +16,8 @@
   --border: #d8ded8;
   --success: #286548;
   --error: #a3332c;
+  --field-bg: #ffffff;
+  --field-border: #77877c;
   --shadow-soft: 0 18px 45px rgba(23, 34, 29, 0.08);
 }
 
@@ -35,6 +37,8 @@
   --border: #39495c;
   --success: #8bd3a4;
   --error: #ff9d96;
+  --field-bg: #111923;
+  --field-border: #647c99;
   --shadow-soft: 0 18px 45px rgba(0, 0, 0, .22);
 }
 
@@ -190,12 +194,6 @@ a:hover {
 
 .is-hidden {
   display: none !important;
-}
-
-.fade-in,
-.fade-in.visible {
-  opacity: 1;
-  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

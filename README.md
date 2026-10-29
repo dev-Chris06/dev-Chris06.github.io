@@ -19,7 +19,8 @@
 ```text
 portfolio/
 ├── index.html                 # Page d’accueil (toutes les sections)
-├── project-detail.html        # Page de détail d’un projet (alimentée par projects.js)
+├── projets/                   # Une page HTML par projet, GÉNÉRÉE par scripts/generate-project-pages.js
+├── project-detail.html        # Redirige les anciens liens ?id=slug vers projets/<slug>.html
 ├── confidentialite.html      # Notice lisible sur le formulaire de contact
 ├── README.md                  # La doc (ce fichier)
 │
@@ -33,6 +34,7 @@ portfolio/
 │   ├── services.css           # Cartes de services
 │   ├── contact.css            # Section contact + styles formulaire
 │   ├── footer.css             # Pied de page
+│   ├── motion.css             # Animations sobres (hero, apparition au défilement, transitions de page)
 │   └── privacy.css            # Page de confidentialité
 │
 ├── js/
@@ -42,9 +44,13 @@ portfolio/
 │   ├── main.js                # Menu, projets, fiches et langue
 │   └── contact.js             # Validation et envoi du formulaire
 │
+├── scripts/
+│   ├── generate-project-pages.js  # Génère projets/*.html et sitemap.xml depuis js/projects.js
+│   └── project-template.html      # Gabarit des pages projet (nav, footer, métadonnées)
+│
 └── assets/
     ├── favicon.svg            # Icône du site
-    └── img/                   # Médias conservés, non utilisés comme captures projet
+    └── img/                   # og-image.png (image de partage social)
 ```
 
 Le CV n’est pas encore fourni. Ajouter le fichier avant de réintroduire un lien de téléchargement.
@@ -72,6 +78,8 @@ cd <votre-depot>
 ### Pourquoi pas de `npm` / build
 
 Le site est **100% statique** : le navigateur charge directement `index.html` + `css/` + `js/`. Aucun transpile, aucun bundler, aucun package manager requis.
+
+Seule exception : les pages projet sont générées par un script Node.js **sans dépendance** (`node scripts/generate-project-pages.js`). Les fichiers générés sont commités, donc GitHub Pages n’a rien à compiler.
 
 ---
 
@@ -104,7 +112,9 @@ git push origin main
 
 ### Visuels des projets
 
-Les cartes utilisent des couvertures typographiques générées en CSS, et non des photos génériques présentées comme captures des applications. Remplace-les par de vraies captures lorsque tu en auras, en mettant à jour le rendu dans `js/main.js` et les données dans `js/projects.js`.
+Les cartes utilisent des couvertures typographiques générées en CSS, et non des photos génériques présentées comme captures des applications. Remplace-les par de vraies captures lorsque tu en auras, en mettant à jour le rendu dans `js/main.js`, le gabarit `scripts/project-template.html` et les données dans `js/projects.js`.
+
+> `assets/img/og-image.png` sert d'image de partage social (Open Graph / Twitter) sur l'accueil, les pages projet et la page confidentialité.
 
 ### Email & WhatsApp
 
@@ -120,11 +130,14 @@ Les cartes utilisent des couvertures typographiques générées en CSS, et non d
   - `data-i18n-placeholder="cle"` (placeholders)
   - `data-i18n-aria="cle"` (libellés accessibles)
 - Règle : **chaque clé** doit exister en **FR et EN** (sinon fallback FR + avertissement console)
+- Règle : le texte de repli du HTML doit être **identique** à la valeur `lang.js` correspondante (zéro divergence : c'est `lang.js` qui s'affiche au chargement)
+- Règle : les flèches décoratives (`↘`, `←`, `→`) ne vont **jamais** dans les traductions. Elles restent dans le HTML, dans un `<span aria-hidden="true">`, pour ne pas polluer le nom accessible lu par les lecteurs d'écran
 
 ### Couleurs
 
 - **Fichier** : `css/style.css` → variables `:root` (ex. `--bg-primary`, `--accent`, etc.)
 - Le projet vise des couleurs **uniquement via variables** (évite d’éparpiller des hex dans chaque section)
+- Les champs du formulaire ont leurs variables dédiées `--field-bg` et `--field-border` (contraste de bordure ≥ 3:1 garanti dans les deux thèmes)
 
 ### CV (PDF)
 
@@ -136,7 +149,13 @@ Les cartes utilisent des couvertures typographiques générées en CSS, et non d
 
 Mets **les mêmes URLs** ici :
 - `index.html` → section **Contact** (lignes de liens) + `index.html` → **footer** (icônes)
-- (Optionnel) `project-detail.html` si tu dupliques la nav/footer
+- `scripts/project-template.html` (nav/footer des pages projet), puis relance `node scripts/generate-project-pages.js`
+
+### Formulaire et WhatsApp (comportements)
+
+- **Honeypot** `_honey` : si le champ caché est rempli par un bot, le formulaire affiche un faux succès et **n’envoie rien** (anti-spam silencieux, côté `js/contact.js`).
+- **WhatsApp** : les liens utilisent le format canonique `https://wa.me/<numéro>` **sans** signe `+`.
+- **Langue** : les boutons FR/EN sont attachés en `addEventListener` (fonction `initLanguageSwitch` de `js/main.js`) — ne pas réintroduire de `onclick` inline.
 
 ---
 
@@ -145,38 +164,40 @@ Mets **les mêmes URLs** ici :
 ### Où ?
 
 - **Fichier** : `js/projects.js`
-- Ajoute un nouvel objet dans le tableau `projects`
+- Ajoute un nouvel objet dans le tableau `projects`, puis **régénère les pages** :
+
+```bash
+node scripts/generate-project-pages.js
+```
+
+Le script crée `projets/<slug>.html` (contenu FR, titre, description, canonical et aperçu social propres au projet) et met à jour `sitemap.xml`. Le passage en anglais est fait par `js/main.js` dans le navigateur. Ne modifie pas les fichiers de `projets/` à la main : ils sont écrasés à chaque génération.
+
+### Critère d’entrée
+
+Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt avec README clair, fonctions décrites vérifiables, au moins une capture réelle ou une démo. Voir `plan.md` (R1).
 
 ### Exemple (copier-coller)
 
-> Important : l’`id` doit être **unique**. Le `slug` sert dans l’URL `project-detail.html?id=...`
+> Le `slug` doit être **unique** : il donne l’URL `projets/<slug>.html`. `order` fixe la position dans la grille (croissant).
 
 ```js
 {
-  id: 4,
+  id: 5,
   slug: "mon-nouveau-projet",
+  order: 5,
   title: { fr: "Mon Nouveau Projet", en: "My New Project" },
-  description: {
-    fr: "Description courte en français.",
-    en: "Short description in English."
-  },
-  longDescription: {
-    fr: "Description longue pour la page détail.",
-    en: "Long description for the detail page."
-  },
+  kind: { fr: "Application web", en: "Web application" },
+  description: { fr: "Résumé court (carte et métadonnées).", en: "Short summary (card and metadata)." },
+  overview: { fr: "Présentation de la fiche.", en: "Detail page overview." },
+  highlights: { fr: ["Fonction 1", "Fonction 2"], en: ["Feature 1", "Feature 2"] },
+  technical: { fr: "Choix techniques.", en: "Technical choices." },
+  note: { fr: "Limites ou contexte (optionnel).", en: "Limits or context (optional)." },
   tags: ["HTML", "CSS"],
-  image: "assets/img/projects/mon-projet.png",
+  cover: "vault",           // style de couverture : vault | clinic | restaurant | company (css/projects.css)
   github: "https://github.com/dev-Chris06/mon-projet",
-  demo: "https://dev-Chris06.github.io/mon-projet"  // null si pas de démo
+  demo: null                // URL de la démo, ou null pour masquer le bouton
 }
 ```
-
-### Image du projet (carte + détail)
-
-- **Dossier** : `assets/img/projects/`
-- **Recommandation** : **1200×750** (ratio ~ 16:10) — **export compressé** (souvent ~ 200–500 KB)
-- **Nom** : court, sans espaces, en minuscules
-- Pense que le CSS impose une hauteur d’affichage type carte (l’image est rognée proprement via `object-fit: cover` côté CSS)
 
 ### Règles pratiques (GitHub / démo)
 
@@ -229,7 +250,15 @@ Le site est conçu pour que **tout le contenu bilingue** pivote autour de `lang.
 
 ---
 
-## 10. Contact
+## 10. Journal des corrections (octobre 2026)
+
+- **Contenu FR/EN** : harmonisation complète HTML ↔ `lang.js` — les titres réels (« Un développeur proche des besoins métier. », « Du code qui répond à un besoin. », « Du web utile, pensé pour votre activité. ») s’affichent désormais, au lieu d’être écrasés par « À propos » / « Services » au chargement.
+- **Accessibilité** : skip-link de la page détail remonté en tête de page (premier élément focusable) ; clés `nav.backHome` et `detail.backAria` pour des libellés ARIA corrects en EN ; bordures de champs de formulaire à contraste ≥ 3:1 via `--field-bg` / `--field-border`.
+- **Contact** : honeypot silencieux (faux succès, aucun envoi) ; liens WhatsApp au format canonique `wa.me/<numéro>` sans `+` (4 occurrences).
+- **SEO / partage** : `assets/img/og-image.png` (1200×630) + `twitter:card` sur l’accueil et la page confidentialité ; canonical ajouté sur la page confidentialité. Les métadonnées *par projet* restent à traiter avec les futures captures (pages fiches volontairement non modifiées).
+- **Hygiène** : suppression du code mort (`data-stop-nav`, `data-i18n-role`, `.fade-in`, `.about-facts`, `projects.noResult`, `detail.imageCaption`, clés `about.fact.*`) ; bloc year du footer géré uniquement par `lang.js` ; `projects.js` retiré de la page confidentialité ; `onclick` inline remplacés par `initLanguageSwitch()`.
+
+## 11. Contact
 
 **Mahudjro Shridara Christopher AHO GLELE**  
 GitHub : [https://github.com/dev-Chris06](https://github.com/dev-Chris06)

@@ -148,6 +148,14 @@ function handleContactSubmit(form, f, fieldList) {
     return;
   }
 
+  // Honeypot rempli = bot détecté : faux succès affiché, aucun envoi effectué.
+  const honeyField = form.elements.namedItem("_honey");
+  if (honeyField && honeyField.value.trim() !== "") {
+    setFeedback(contactT("success"), "success");
+    form.reset();
+    return;
+  }
+
   // Disable submit button during sending
   const submitBtn = form.querySelector(".contact-submit");
   if (submitBtn) {
