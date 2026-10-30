@@ -431,6 +431,35 @@ function initBackToTop() {
 }
 
 /**
+ * Découpe le titre du hero en mots pour les faire apparaître l’un après l’autre.
+ * Les retours à la ligne de la traduction sont conservés (white-space: pre-line).
+ * Un changement de langue remplace le texte : le titre s’affiche alors sans animation.
+ */
+function initHeroTitle() {
+  const title = document.querySelector(".hero-title");
+  if (!title) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion) {
+    const fragment = document.createDocumentFragment();
+    let index = 0;
+    title.textContent.split(/(\s+)/).forEach((part) => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) {
+        fragment.append(part);
+        return;
+      }
+      const word = document.createElement("span");
+      word.className = "hero-word";
+      word.style.setProperty("--word-index", index++);
+      word.textContent = part;
+      fragment.append(word);
+    });
+    title.replaceChildren(fragment);
+  }
+  title.classList.add("is-split");
+}
+
+/**
  * Fait apparaître les blocs au défilement, une seule fois chacun.
  * Seuls les blocs encore sous l’écran sont masqués : rien ne clignote au chargement,
  * et sans JavaScript, IntersectionObserver ou avec réduction des animations, tout reste visible.
@@ -465,7 +494,7 @@ function initReveal() {
   belowFold.forEach((element) => {
     // Léger décalage entre cartes voisines d’une même grille.
     const siblings = Array.from(element.parentElement.children);
-    element.style.setProperty("--reveal-delay", `${(siblings.indexOf(element) % 2) * 80}ms`);
+    element.style.setProperty("--reveal-delay", `${(siblings.indexOf(element) % 3) * 110}ms`);
     element.classList.add("reveal");
     observer.observe(element);
   });
@@ -477,6 +506,7 @@ window.applyLanguage = applyLanguage;
 document.addEventListener("DOMContentLoaded", () => {
   const savedLanguage = localStorage.getItem("lang") === "en" ? "en" : "fr";
   applyLanguage(savedLanguage);
+  initHeroTitle();
 
   try {
     initBurgerMenu();
