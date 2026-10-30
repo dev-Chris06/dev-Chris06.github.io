@@ -38,6 +38,36 @@
     animation-delay: calc(120ms + var(--word-index, 0) * 90ms);
   }
 
+  /* Faisceaux du fond : courts traits de lumière qui suivent les lignes de la grille (style.css).
+     Les éléments sont créés par initBeams dans js/main.js. */
+  .site-beams {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 85% 75% at 65% 35%, #000 25%, transparent 80%);
+  }
+  .site-beams span {
+    position: absolute;
+  }
+  .site-beams .beam-h {
+    top: calc(var(--k) * 64px);
+    left: 0;
+    width: 180px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent));
+    animation: beam-x var(--d) linear var(--delay) infinite both;
+  }
+  .site-beams .beam-v {
+    top: 0;
+    left: calc(var(--k) * 64px);
+    width: 1px;
+    height: 180px;
+    background: linear-gradient(180deg, transparent, var(--accent-warm));
+    animation: beam-y var(--d) linear var(--delay) infinite both;
+  }
+
   /* Apparition au défilement, classes posées par initReveal. */
   .reveal {
     opacity: 0;
@@ -98,4 +128,14 @@
     transform: none;
     filter: none;
   }
+}
+
+@keyframes beam-x {
+  from { transform: translateX(-200px); }
+  to { transform: translateX(100vw); }
+}
+
+@keyframes beam-y {
+  from { transform: translateY(-200px); }
+  to { transform: translateY(100vh); }
 }

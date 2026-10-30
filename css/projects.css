@@ -1,4 +1,4 @@
-.projects-section { padding-block: clamp(4.5rem, 9vw, 7.5rem); background: var(--bg-secondary); }
+.projects-section { padding-block: clamp(4.5rem, 9vw, 7.5rem); background: color-mix(in srgb, var(--bg-secondary) 72%, transparent); }
 .section-heading-row { display:flex; justify-content:space-between; align-items:end; gap:2rem; margin-bottom:2.5rem; }
 .section-heading-row > div { max-width: 38rem; }
 .section-intro { max-width: 34rem; margin:0 0 .35rem; color:var(--text-muted); line-height:1.7; }

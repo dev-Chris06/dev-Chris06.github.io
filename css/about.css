@@ -2,7 +2,7 @@
 
 .about-section {
   padding-block: clamp(4.5rem, 9vw, 7.5rem);
-  background: var(--bg-soft);
+  background: color-mix(in srgb, var(--bg-soft) 72%, transparent);
 }
 
 .about-grid {
