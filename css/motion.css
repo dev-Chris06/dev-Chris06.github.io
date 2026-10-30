@@ -1,6 +1,6 @@
-/* Animations sobres : entrée du hero, apparition au défilement, transitions de page.
+/* Animations : entrée du hero, apparition au défilement, transitions de page.
    Tout est désactivé avec prefers-reduced-motion. Le contenu reste visible sans JavaScript :
-   seul js/main.js (initReveal) masque les blocs à révéler. */
+   seul js/main.js masque les blocs à révéler (initReveal) et découpe le titre (initHeroTitle). */
 
 @media (prefers-reduced-motion: no-preference) {
   /* Transition entre pages (Chrome, Edge, Safari récents ; sans effet ailleurs). */
@@ -18,20 +18,31 @@
     animation-timing-function: cubic-bezier(.2, .7, .2, 1);
   }
 
-  /* Entrée du hero : le titre (élément LCP) s'affiche tout de suite, le reste suit. */
+  /* Entrée du hero : l'eyebrow, puis le titre mot par mot, puis la description et les boutons. */
   .hero-eyebrow,
   .hero-description,
   .hero-actions {
-    animation: fade-up 520ms cubic-bezier(.2, .7, .2, 1) both;
+    animation: fade-up 700ms cubic-bezier(.2, .7, .2, 1) both;
   }
-  .hero-description { animation-delay: 90ms; }
-  .hero-actions { animation-delay: 160ms; }
+  .hero-description { animation-delay: 520ms; }
+  .hero-actions { animation-delay: 640ms; }
+
+  /* Le titre attend son découpage en mots. Si le script échoue, il apparaît d'un bloc après 1 s. */
+  .js .hero-title:not(.is-split) {
+    animation: fade-up 600ms 1s both;
+  }
+
+  .hero-word {
+    display: inline-block;
+    animation: word-up 800ms cubic-bezier(.2, .7, .2, 1) both;
+    animation-delay: calc(120ms + var(--word-index, 0) * 90ms);
+  }
 
   /* Apparition au défilement, classes posées par initReveal. */
   .reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 480ms ease, transform 480ms cubic-bezier(.2, .7, .2, 1);
+    transform: translateY(44px) scale(.98);
+    transition: opacity 700ms ease, transform 800ms cubic-bezier(.2, .7, .2, 1);
     transition-delay: var(--reveal-delay, 0ms);
   }
   .reveal.is-revealed {
@@ -44,7 +55,7 @@
     transition: transform .2s ease, border-color .2s ease;
   }
   .service-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-6px);
     border-color: var(--accent);
   }
 
@@ -61,17 +72,30 @@
     transition: transform .18s ease;
   }
   .hero-cta:hover [aria-hidden="true"] {
-    transform: translate(2px, 2px);
+    transform: translate(3px, 3px);
   }
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes word-up {
+  from {
+    opacity: 0;
+    transform: translateY(.45em);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }

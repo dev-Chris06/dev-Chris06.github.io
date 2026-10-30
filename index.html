@@ -30,6 +30,8 @@
     <meta name="theme-color" content="#f7f6f2" />
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <script>
+      // Signale que JavaScript tourne : le titre du hero peut attendre son découpage en mots sans clignoter.
+      document.documentElement.classList.add("js");
       try {
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme === "dark" || savedTheme === "light") {
