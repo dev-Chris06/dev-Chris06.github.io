@@ -18,14 +18,34 @@
     animation-timing-function: cubic-bezier(.2, .7, .2, 1);
   }
 
-  /* Entrée du hero : l'eyebrow, puis le titre mot par mot, puis la description et les boutons. */
-  .hero-eyebrow,
+  /* Entrée du hero : le badge, le nom mot par mot, puis le rôle, la description, les boutons,
+     les liens et l'avatar. */
+  .hero-status,
+  .hero-role,
   .hero-description,
-  .hero-actions {
+  .hero-actions,
+  .hero-socials,
+  .hero-visual {
     animation: fade-up 700ms cubic-bezier(.2, .7, .2, 1) both;
   }
+  .hero-visual { animation-delay: 250ms; }
+  .hero-role { animation-delay: 420ms; }
   .hero-description { animation-delay: 520ms; }
-  .hero-actions { animation-delay: 640ms; }
+  .hero-actions { animation-delay: 620ms; }
+  .hero-socials { animation-delay: 720ms; }
+
+  /* Le point du badge pulse, le cercle en pointillés tourne, les étiquettes flottent. */
+  .hero-status::before {
+    animation: status-ping 2.2s ease-out infinite;
+  }
+  .hero-avatar::after {
+    animation: avatar-spin 40s linear infinite;
+  }
+  .hero-chip {
+    animation: chip-float 6s ease-in-out infinite alternate;
+  }
+  .hero-chip--auto { animation-delay: -2s; }
+  .hero-chip--mobile { animation-delay: -4s; }
 
   /* Le titre attend son découpage en mots. Si le script échoue, il apparaît d'un bloc après 1 s. */
   .js .hero-title:not(.is-split) {
@@ -138,4 +158,17 @@
 @keyframes beam-y {
   from { transform: translateY(-200px); }
   to { transform: translateY(100vh); }
+}
+
+@keyframes status-ping {
+  from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--available) 60%, transparent); }
+  70%, to { box-shadow: 0 0 0 .5rem transparent; }
+}
+
+@keyframes avatar-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes chip-float {
+  to { transform: translateY(-10px); }
 }

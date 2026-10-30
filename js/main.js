@@ -432,29 +432,34 @@ function initBackToTop() {
 
 /**
  * Découpe le titre du hero en mots pour les faire apparaître l’un après l’autre.
- * Les retours à la ligne de la traduction sont conservés (white-space: pre-line).
- * Un changement de langue remplace le texte : le titre s’affiche alors sans animation.
+ * Les éléments internes (comme la partie du nom en couleur) sont conservés :
+ * seuls leurs textes sont découpés.
  */
 function initHeroTitle() {
   const title = document.querySelector(".hero-title");
   if (!title) return;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!reduceMotion) {
-    const fragment = document.createDocumentFragment();
+    const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
     let index = 0;
-    title.textContent.split(/(\s+)/).forEach((part) => {
-      if (!part) return;
-      if (/^\s+$/.test(part)) {
-        fragment.append(part);
-        return;
-      }
-      const word = document.createElement("span");
-      word.className = "hero-word";
-      word.style.setProperty("--word-index", index++);
-      word.textContent = part;
-      fragment.append(word);
+    textNodes.forEach((node) => {
+      const fragment = document.createDocumentFragment();
+      node.textContent.split(/(\s+)/).forEach((part) => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) {
+          fragment.append(part);
+          return;
+        }
+        const word = document.createElement("span");
+        word.className = "hero-word";
+        word.style.setProperty("--word-index", index++);
+        word.textContent = part;
+        fragment.append(word);
+      });
+      node.replaceWith(fragment);
     });
-    title.replaceChildren(fragment);
   }
   title.classList.add("is-split");
 }
