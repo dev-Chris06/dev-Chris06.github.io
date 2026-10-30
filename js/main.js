@@ -460,6 +460,31 @@ function initHeroTitle() {
 }
 
 /**
+ * Ajoute les faisceaux qui parcourent la grille du fond (styles dans css/motion.css).
+ * Rien n'est créé si l'utilisateur demande de réduire les animations : la grille reste fixe.
+ */
+function initBeams() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  // k : numéro de la ligne de grille suivie, d : durée de la traversée, delay : départ décalé.
+  const beams = [
+    ["h", 2, 9, 0], ["h", 5, 12, -4], ["h", 9, 10, -7], ["h", 12, 14, -2],
+    ["v", 3, 12, -9], ["v", 8, 11, -3], ["v", 14, 9, -6], ["v", 19, 13, -1],
+  ];
+  const layer = document.createElement("div");
+  layer.className = "site-beams";
+  layer.setAttribute("aria-hidden", "true");
+  beams.forEach(([axis, k, duration, delay]) => {
+    const beam = document.createElement("span");
+    beam.className = `beam-${axis}`;
+    beam.style.setProperty("--k", k);
+    beam.style.setProperty("--d", `${duration}s`);
+    beam.style.setProperty("--delay", `${delay}s`);
+    layer.append(beam);
+  });
+  document.body.prepend(layer);
+}
+
+/**
  * Fait apparaître les blocs au défilement, une seule fois chacun.
  * Seuls les blocs encore sous l’écran sont masqués : rien ne clignote au chargement,
  * et sans JavaScript, IntersectionObserver ou avec réduction des animations, tout reste visible.
@@ -507,6 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedLanguage = localStorage.getItem("lang") === "en" ? "en" : "fr";
   applyLanguage(savedLanguage);
   initHeroTitle();
+  initBeams();
 
   try {
     initBurgerMenu();

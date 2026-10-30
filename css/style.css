@@ -60,7 +60,6 @@ body {
   margin: 0;
   padding-top: 4.5rem;
   overflow-x: clip;
-  background: var(--bg-primary);
   color: var(--text-primary);
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 1rem;
@@ -190,6 +189,22 @@ a:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
   color: var(--accent-hover);
+}
+
+/* Fond du site : grille fine et fixe, parcourue de faisceaux (motion.css).
+   Le fond de couleur est porté par html pour que la grille passe sous le contenu. */
+body::before {
+  --grid: color-mix(in srgb, var(--accent) 9%, transparent);
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 64px 64px;
+  content: "";
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 85% 75% at 65% 35%, #000 25%, transparent 80%);
 }
 
 .is-hidden {

@@ -38,12 +38,34 @@
     animation-delay: calc(120ms + var(--word-index, 0) * 90ms);
   }
 
-  /* Dérive lente des halos du hero, en aller-retour pour éviter tout saut en fin de boucle. */
-  .hero-section::before {
-    animation: halo-drift 26s ease-in-out infinite alternate;
+  /* Faisceaux du fond : courts traits de lumière qui suivent les lignes de la grille (style.css).
+     Les éléments sont créés par initBeams dans js/main.js. */
+  .site-beams {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 85% 75% at 65% 35%, #000 25%, transparent 80%);
   }
-  .hero-section::after {
-    animation: halo-drift-warm 32s ease-in-out infinite alternate;
+  .site-beams span {
+    position: absolute;
+  }
+  .site-beams .beam-h {
+    top: calc(var(--k) * 64px);
+    left: 0;
+    width: 180px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent));
+    animation: beam-x var(--d) linear var(--delay) infinite both;
+  }
+  .site-beams .beam-v {
+    top: 0;
+    left: calc(var(--k) * 64px);
+    width: 1px;
+    height: 180px;
+    background: linear-gradient(180deg, transparent, var(--accent-warm));
+    animation: beam-y var(--d) linear var(--delay) infinite both;
   }
 
   /* Apparition au défilement, classes posées par initReveal. */
@@ -108,14 +130,12 @@
   }
 }
 
-@keyframes halo-drift {
-  to {
-    transform: translate(-14%, 10%) scale(1.12);
-  }
+@keyframes beam-x {
+  from { transform: translateX(-200px); }
+  to { transform: translateX(100vw); }
 }
 
-@keyframes halo-drift-warm {
-  to {
-    transform: translate(18%, -16%) scale(.9);
-  }
+@keyframes beam-y {
+  from { transform: translateY(-200px); }
+  to { transform: translateY(100vh); }
 }

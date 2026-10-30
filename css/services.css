@@ -1,4 +1,4 @@
-.services-section { padding-block:clamp(4.5rem,9vw,7.5rem); background:var(--bg-primary); }
+.services-section { padding-block:clamp(4.5rem,9vw,7.5rem); background:color-mix(in srgb, var(--bg-primary) 72%, transparent); }
 .services-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
 .service-card { padding:1.6rem; border:1px solid var(--border); border-radius:.9rem; background:var(--bg-card); box-shadow:var(--shadow-soft); }
 .service-icon { display:grid; width:2.8rem; height:2.8rem; place-items:center; margin-bottom:1.1rem; border-radius:.7rem; color:var(--accent); background:var(--accent-soft); }
