@@ -38,6 +38,14 @@
     animation-delay: calc(120ms + var(--word-index, 0) * 90ms);
   }
 
+  /* Dérive lente des halos du hero, en aller-retour pour éviter tout saut en fin de boucle. */
+  .hero-section::before {
+    animation: halo-drift 26s ease-in-out infinite alternate;
+  }
+  .hero-section::after {
+    animation: halo-drift-warm 32s ease-in-out infinite alternate;
+  }
+
   /* Apparition au défilement, classes posées par initReveal. */
   .reveal {
     opacity: 0;
@@ -97,5 +105,17 @@
     opacity: 1;
     transform: none;
     filter: none;
+  }
+}
+
+@keyframes halo-drift {
+  to {
+    transform: translate(-14%, 10%) scale(1.12);
+  }
+}
+
+@keyframes halo-drift-warm {
+  to {
+    transform: translate(18%, -16%) scale(.9);
   }
 }

@@ -1,11 +1,39 @@
 /* Introduction : message central et actions prioritaires */
 
 .hero-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   min-height: min(48rem, calc(88svh - 4.5rem));
   align-items: center;
   padding-block: clamp(4.5rem, 10vw, 8rem);
   border-bottom: 1px solid var(--border);
+}
+
+/* Halos de couleur derrière le hero, dans la moitié droite. Leur dérive est dans motion.css. */
+.hero-section::before,
+.hero-section::after {
+  position: absolute;
+  z-index: -1;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.hero-section::before {
+  top: -18%;
+  right: -10%;
+  width: min(52rem, 95vw);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 30%, transparent), transparent);
+}
+
+.hero-section::after {
+  right: 16%;
+  bottom: -32%;
+  width: min(36rem, 75vw);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent-warm) 26%, transparent), transparent);
 }
 
 .hero-eyebrow,
