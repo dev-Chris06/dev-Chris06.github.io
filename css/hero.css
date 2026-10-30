@@ -1,4 +1,4 @@
-/* Introduction : message central et actions prioritaires */
+/* Introduction : nom, disponibilité, actions prioritaires et avatar */
 
 .hero-section {
   display: flex;
@@ -8,7 +8,13 @@
   border-bottom: 1px solid var(--border);
 }
 
-.hero-eyebrow,
+.hero-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
 .section-kicker {
   margin: 0 0 1rem;
   color: var(--accent);
@@ -19,32 +25,57 @@
   text-transform: uppercase;
 }
 
-.hero-eyebrow::before {
-  display: inline-block;
-  width: 1.7rem;
-  height: 1px;
-  margin: 0 0.6rem 0.25rem 0;
-  background: var(--accent-warm);
+/* Badge de disponibilité, avec un point vert (pulsation dans motion.css). */
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.35rem 0.8rem 0.35rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--bg-card) 80%, transparent);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hero-status::before {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--available);
   content: "";
 }
 
 .hero-title {
-  max-width: 22ch;
-  margin: 0;
+  margin: 1.1rem 0 0.4rem;
   color: var(--text-primary);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3.2rem, 6.2vw, 5.6rem);
+  font-size: clamp(3rem, 6.6vw, 5.6rem);
   font-weight: 500;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.05em;
   line-height: 0.98;
-  white-space: pre-line;
+}
+
+.hero-title-accent {
+  color: var(--accent);
+}
+
+.hero-role {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .hero-description {
-  max-width: 58ch;
-  margin: 1.7rem 0 0;
+  max-width: 54ch;
+  margin: 1.4rem 0 0;
   color: var(--text-muted);
-  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  font-size: clamp(1.02rem, 1.5vw, 1.15rem);
   line-height: 1.7;
 }
 
@@ -55,17 +86,126 @@
   margin-top: 1.8rem;
 }
 
+.hero-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-socials .social-button {
+  min-height: 2.4rem;
+  padding: 0.4rem 0.75rem;
+  background: color-mix(in srgb, var(--bg-card) 70%, transparent);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.hero-socials .social-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Avatar : initiales en attendant la photo, qui prendra la place de .hero-avatar-initials.
+   Le cercle en pointillés (::after) tourne dans motion.css. */
+.hero-visual {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 23rem);
+}
+
+.hero-avatar {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--accent) 55%, var(--bg-card)), var(--bg-card) 75%);
+  color: var(--text-primary);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(5rem, 10vw, 8rem);
+  letter-spacing: -0.04em;
+}
+
+.hero-avatar::after {
+  position: absolute;
+  inset: -14px;
+  border: 1.5px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 50%;
+  content: "";
+}
+
+.hero-avatar-online {
+  position: absolute;
+  right: 11%;
+  bottom: 11%;
+  width: 8%;
+  aspect-ratio: 1;
+  border: 4px solid var(--bg-primary);
+  border-radius: 50%;
+  background: var(--available);
+}
+
+.hero-chip {
+  position: absolute;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.hero-chip small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.hero-chip--web { top: 6%; left: -12%; }
+.hero-chip--auto { top: 44%; right: -16%; }
+.hero-chip--mobile { bottom: 2%; left: 2%; }
+
+@media (max-width: 860px) {
+  .hero-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-visual {
+    width: min(70%, 16rem);
+    margin-top: 1.5rem;
+  }
+
+  .hero-chip--web { left: -20%; }
+  .hero-chip--auto { right: -24%; }
+}
+
 @media (max-width: 640px) {
   .hero-section {
     min-height: auto;
-    padding-block: 5.25rem 4.5rem;
+    padding-block: 4.5rem 4rem;
   }
 
   .hero-title {
-    font-size: clamp(3rem, 14vw, 5.2rem);
+    font-size: clamp(2.8rem, 13vw, 4.6rem);
   }
 
   .hero-actions > * {
     width: 100%;
+  }
+
+  .hero-avatar-online {
+    border-width: 3px;
   }
 }
