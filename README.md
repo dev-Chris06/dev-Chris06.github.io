@@ -114,7 +114,7 @@ git push origin main
 
 Les cartes utilisent des couvertures typographiques générées en CSS, et non des photos génériques présentées comme captures des applications. Remplace-les par de vraies captures lorsque tu en auras, en mettant à jour le rendu dans `js/main.js`, le gabarit `scripts/project-template.html` et les données dans `js/projects.js`.
 
-> `assets/img/og-image.png` sert d'image de partage social (Open Graph / Twitter) sur l'accueil, les pages projet et la page confidentialité.
+> `assets/img/og-image.png` sert d'image de partage social (Open Graph / Twitter) sur l'accueil et la page confidentialité. Chaque page projet utilise sa propre image, `assets/img/og/<slug>.png` : en ajoutant un projet, ajoute aussi son image (1200 × 630 px).
 
 ### Email & WhatsApp
 

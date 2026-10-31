@@ -36,6 +36,7 @@ function buildPage(template, project) {
     slug: project.slug,
     url,
     pageTitle: `${fr("title")} | Christopher AHO GLELE`,
+    ogImage: `${SITE_URL}/assets/img/og/${project.slug}.png`,
     title: fr("title"),
     kind: fr("kind"),
     description: fr("description"),
