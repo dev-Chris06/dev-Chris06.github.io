@@ -74,26 +74,26 @@ const projects = [
     title: { fr: "Password Manager", en: "Password Manager" },
     kind: { fr: "Application web full stack", en: "Full-stack web application" },
     description: {
-      fr: "Gestionnaire web multi-utilisateur avec coffre chiffré et extension Chrome pour le remplissage à la demande.",
-      en: "Multi-user web password manager with an encrypted vault and a Chrome extension for on-demand autofill."
+      fr: "Gestionnaire de mots de passe zero-knowledge en cours de refonte : le chiffrement se fait dans le navigateur, le serveur ne voit jamais les secrets.",
+      en: "Zero-knowledge password manager being rebuilt: encryption happens in the browser, and the server never sees the secrets."
     },
     overview: {
-      fr: "Password Manager est un gestionnaire web multi-utilisateur qui organise les identifiants dans un coffre associé à chaque compte. Le dépôt comprend aussi une extension Chrome pour déclencher le remplissage automatique à la demande.",
-      en: "Password Manager is a multi-user web password manager that organizes credentials in a vault for each account. The repository also includes a Chrome extension for on-demand autofill."
+      fr: "Ce gestionnaire de mots de passe est en cours de refonte vers une architecture zero-knowledge. Tout le chiffrement a lieu dans le navigateur ou dans l’extension Chrome : le serveur ne voit jamais ni le mot de passe maître ni les secrets. La première version chiffrait les données côté serveur, ce qui permettait au serveur de les lire ; elle reste consultable sous le tag git avant-refonte.",
+      en: "This password manager is being rebuilt on a zero-knowledge architecture. All encryption happens in the browser or the Chrome extension: the server never sees the master password or the secrets. The first version encrypted data on the server, which let the server read it; it remains available under the avant-refonte git tag."
     },
     highlights: {
-      fr: ["Création de compte, connexion et coffre d’identifiants par utilisateur.", "Ajout, modification, suppression et filtrage des entrées.", "Copie dans le presse-papiers avec effacement automatique après 15 secondes.", "Export et réimport d’une sauvegarde chiffrée.", "Extension Chrome Manifest V3 pour le remplissage à la demande."],
-      en: ["Account creation, login, and a per-user credential vault.", "Add, edit, delete, and filter entries.", "Clipboard copy with automatic clearing after 15 seconds.", "Export and restore an encrypted backup.", "Manifest V3 Chrome extension for on-demand autofill."]
+      fr: ["Chiffrement côté client : Argon2id avec une clé secrète supplémentaire, puis AES-256-GCM.", "Double authentification TOTP obligatoire et codes de secours.", "Coffre sur une seule page avec verrouillage automatique, générateur et sauvegarde chiffrée.", "Vérification des mots de passe exposés dans des fuites (Have I Been Pwned, k-anonymat).", "Extension Chrome qui déchiffre localement et ne remplit que sur le bon domaine."],
+      en: ["Client-side encryption: Argon2id with an additional secret key, then AES-256-GCM.", "Mandatory TOTP two-factor authentication and recovery codes.", "Single-page vault with auto-lock, generator, and encrypted backup.", "Breached password check (Have I Been Pwned, k-anonymity).", "Chrome extension that decrypts locally and only fills on the right domain."]
     },
     technical: {
-      fr: "Application PHP procédurale avec MySQL ou MariaDB et interface JavaScript. Le README décrit AES-256-GCM pour le chiffrement, PBKDF2-SHA-256 (600 000 itérations) pour la dérivation de clé, bcrypt pour le mot de passe maître, ainsi que des sessions HttpOnly, des jetons CSRF et des requêtes PDO préparées.",
-      en: "Procedural PHP application with MySQL or MariaDB and a JavaScript interface. The README documents AES-256-GCM encryption, PBKDF2-SHA-256 (600,000 iterations) for key derivation, bcrypt for the master password, along with HttpOnly sessions, CSRF tokens, and prepared PDO queries."
+      fr: "Le serveur Symfony 7.4 (PHP 8.3+, Doctrine, MySQL) se limite à stocker, authentifier, limiter les tentatives et journaliser. Le client et l’extension sont écrits en TypeScript, avec WebCrypto et Argon2id compilé en WebAssembly. La qualité est suivie avec PHPUnit, PHPStan, Vitest, ESLint, Playwright et une intégration continue GitHub Actions. Le plan de refonte et les décisions techniques sont documentés dans le dépôt.",
+      en: "The Symfony 7.4 server (PHP 8.3+, Doctrine, MySQL) only stores, authenticates, rate-limits, and logs. The client and the extension are written in TypeScript, with WebCrypto and Argon2id compiled to WebAssembly. Quality is tracked with PHPUnit, PHPStan, Vitest, ESLint, Playwright, and GitHub Actions continuous integration. The rebuild plan and technical decisions are documented in the repository."
     },
     note: {
-      fr: "La documentation du dépôt décrit l’architecture et les prérequis de déploiement ; aucune démo publique n’est liée à cette fiche.",
-      en: "The repository documentation describes the architecture and deployment requirements; no public demo is linked from this page."
+      fr: "Refonte en cours : les fonctionnalités ci-dessus décrivent l’application visée, construite étape par étape selon le plan publié dans le dépôt. Aucune démo publique n’est liée à cette fiche.",
+      en: "Rebuild in progress: the features above describe the target application, built step by step according to the plan published in the repository. No public demo is linked from this page."
     },
-    tags: ["PHP", "JavaScript", "MySQL"],
+    tags: ["Symfony", "TypeScript", "WebCrypto", "MySQL"],
     cover: "vault",
     github: "https://github.com/dev-Chris06/password-manager",
     demo: null
@@ -140,8 +140,8 @@ const projects = [
       en: "Android app that downloads public videos from several platforms to the device, with no account or server, and its landing site."
     },
     overview: {
-      fr: "Loady est une application Android menée à deux. Elle télécharge sur le téléphone les vidéos publiques de YouTube, TikTok, Instagram et d’autres plateformes, sans compte, sans serveur Loady et sans synchronisation cloud. J’ai réalisé le site de présentation et je contribue au développement de l’application.",
-      en: "Loady is an Android app built by a team of two. It downloads public videos from YouTube, TikTok, Instagram, and other platforms to the phone, with no account, no Loady server, and no cloud sync. I built the landing site and contribute to the app’s development."
+      fr: "Loady est une application Android développée en équipe. Elle télécharge sur le téléphone les vidéos publiques de YouTube, TikTok, Instagram et d’autres plateformes, sans compte, sans serveur Loady et sans synchronisation cloud. Nous développons ensemble l’application et son site de présentation.",
+      en: "Loady is an Android app built by a team. It downloads public videos from YouTube, TikTok, Instagram, and other platforms to the phone, with no account, no Loady server, and no cloud sync. We build the app and its landing site together."
     },
     highlights: {
       fr: ["Liens de huit plateformes reconnus, par collage ou partage Android.", "Choix du format (MP4, WebM ou MP3) parmi les qualités réellement disponibles.", "Téléchargement en arrière-plan avec notification et nouvelles tentatives en cas de coupure réseau.", "Site de présentation avec thèmes clair et sombre et téléchargement de l’APK."],
@@ -152,8 +152,8 @@ const projects = [
       en: "The app is built with Flutter, with Kotlin on the Android side, and relies on yt-dlp to extract videos. The landing site is a static Astro site with Tailwind CSS, deployed on Vercel; its code lives in a separate repository."
     },
     note: {
-      fr: "Le dépôt de l’application est hébergé sur le compte de mon binôme ; le code du site de présentation est sur github.com/dev-Chris06/loady-site. Seules les vidéos publiques sont prises en charge : les contenus protégés (DRM) sont refusés.",
-      en: "The app repository is hosted on my teammate’s account; the landing site code is at github.com/dev-Chris06/loady-site. Only public videos are supported: protected (DRM) content is refused."
+      fr: "Le dépôt de l’application est hébergé sur le compte d’un membre de l’équipe ; le code du site de présentation est sur github.com/dev-Chris06/loady-site. Seules les vidéos publiques sont prises en charge : les contenus protégés (DRM) sont refusés.",
+      en: "The app repository is hosted on a team member’s account; the landing site code is at github.com/dev-Chris06/loady-site. Only public videos are supported: protected (DRM) content is refused."
     },
     tags: ["Flutter", "Kotlin", "Astro", "Tailwind CSS"],
     cover: "mobile",
@@ -167,12 +167,12 @@ const projects = [
     title: { fr: "DIGITECH — site d’agence", en: "DIGITECH — Agency Website" },
     kind: { fr: "Site vitrine bilingue", en: "Bilingual showcase website" },
     description: {
-      fr: "Site vitrine d’une agence de digitalisation, réalisé seul lors d’un projet tutoré, en français et en anglais.",
-      en: "Showcase website for a digital agency, built on my own during a supervised project, in French and English."
+      fr: "Site vitrine d’une agence de digitalisation, réalisé lors d’un projet tutoré, en français et en anglais.",
+      en: "Showcase website for a digital agency, built during a supervised project, in French and English."
     },
     overview: {
-      fr: "DIGITECH est une agence fictive créée pour un projet tutoré : l’équipe devait fonctionner comme une vraie agence et répondre au besoin d’un client. J’y occupais le rôle de responsable technique et j’ai réalisé seul l’intégralité du site, de la structure des pages à la mise en ligne.",
-      en: "DIGITECH is a fictional agency created for a supervised project: the team had to operate like a real agency and meet a client’s needs. I was the technical lead and built the entire website on my own, from page structure to deployment."
+      fr: "DIGITECH est une agence fictive créée pour un projet tutoré : l’équipe devait fonctionner comme une vraie agence et répondre au besoin d’un client. J’y occupais le rôle de responsable technique et j’ai conçu et développé le site, de la structure des pages à la mise en ligne.",
+      en: "DIGITECH is a fictional agency created for a supervised project: the team had to operate like a real agency and meet a client’s needs. I was the technical lead and designed and built the website, from page structure to deployment."
     },
     highlights: {
       fr: ["Accueil avec services, méthode de travail, réalisations et contact.", "Page équipe, page 404, mentions légales et politique de confidentialité.", "Traduction français / anglais avec sélecteur de langue.", "Formulaire de contact relié à Formspree."],
