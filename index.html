@@ -30,8 +30,6 @@
     <meta name="theme-color" content="#f7f6f2" />
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <script>
-      // Signale que JavaScript tourne : le titre du hero peut attendre son découpage en mots sans clignoter.
-      document.documentElement.classList.add("js");
       try {
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme === "dark" || savedTheme === "light") {
@@ -66,6 +64,11 @@
     <link rel="stylesheet" href="./css/contact.css" />
     <link rel="stylesheet" href="./css/footer.css" />
     <link rel="stylesheet" href="./css/motion.css" />
+    <script defer src="./js/utils.js"></script>
+    <script defer src="./js/projects.js"></script>
+    <script defer src="./js/lang.js"></script>
+    <script defer src="./js/main.js"></script>
+    <script defer src="./js/contact.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content" data-i18n="nav.skip">Passer au contenu</a>
@@ -569,11 +572,5 @@
       <hr class="footer-sep" />
       <p class="footer-copy" data-i18n="footer.copyright"></p>
     </footer>
-
-    <script src="./js/utils.js"></script>
-    <script src="./js/projects.js"></script>
-    <script src="./js/lang.js"></script>
-    <script src="./js/main.js"></script>
-    <script src="./js/contact.js"></script>
   </body>
 </html>

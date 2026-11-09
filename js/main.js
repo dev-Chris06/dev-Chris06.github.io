@@ -431,40 +431,6 @@ function initBackToTop() {
 }
 
 /**
- * Découpe le titre du hero en mots pour les faire apparaître l’un après l’autre.
- * Les éléments internes (comme la partie du nom en couleur) sont conservés :
- * seuls leurs textes sont découpés.
- */
-function initHeroTitle() {
-  const title = document.querySelector(".hero-title");
-  if (!title) return;
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!reduceMotion) {
-    const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
-    const textNodes = [];
-    while (walker.nextNode()) textNodes.push(walker.currentNode);
-    let index = 0;
-    textNodes.forEach((node) => {
-      const fragment = document.createDocumentFragment();
-      node.textContent.split(/(\s+)/).forEach((part) => {
-        if (!part) return;
-        if (/^\s+$/.test(part)) {
-          fragment.append(part);
-          return;
-        }
-        const word = document.createElement("span");
-        word.className = "hero-word";
-        word.style.setProperty("--word-index", index++);
-        word.textContent = part;
-        fragment.append(word);
-      });
-      node.replaceWith(fragment);
-    });
-  }
-  title.classList.add("is-split");
-}
-
-/**
  * Ajoute les faisceaux qui parcourent la grille du fond (styles dans css/motion.css).
  * Rien n'est créé si l'utilisateur demande de réduire les animations : la grille reste fixe.
  */
@@ -472,8 +438,8 @@ function initBeams() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   // k : numéro de la ligne de grille suivie, d : durée de la traversée, delay : départ décalé.
   const beams = [
-    ["h", 2, 9, 0], ["h", 5, 12, -4], ["h", 9, 10, -7], ["h", 12, 14, -2],
-    ["v", 3, 12, -9], ["v", 8, 11, -3], ["v", 14, 9, -6], ["v", 19, 13, -1],
+    ["h", 3, 10, 0], ["h", 10, 13, -6],
+    ["v", 5, 11, -3], ["v", 16, 14, -9],
   ];
   const layer = document.createElement("div");
   layer.className = "site-beams";
@@ -487,6 +453,15 @@ function initBeams() {
     layer.append(beam);
   });
   document.body.prepend(layer);
+}
+
+/** Met en pause les animations en boucle du hero tant qu'il est hors de l'écran (css/motion.css). */
+function initHeroPause() {
+  const hero = document.querySelector(".hero-section");
+  if (!hero || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(([entry]) => {
+    hero.classList.toggle("is-paused", !entry.isIntersecting);
+  }).observe(hero);
 }
 
 /**
@@ -536,8 +511,8 @@ window.applyLanguage = applyLanguage;
 document.addEventListener("DOMContentLoaded", () => {
   const savedLanguage = localStorage.getItem("lang") === "en" ? "en" : "fr";
   applyLanguage(savedLanguage);
-  initHeroTitle();
   initBeams();
+  initHeroPause();
 
   try {
     initBurgerMenu();
