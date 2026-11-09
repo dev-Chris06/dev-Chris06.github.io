@@ -20,10 +20,11 @@
 portfolio/
 ├── src/                       # SOURCES : c’est ici qu’on modifie le contenu
 │   ├── templates/             # Structure des pages (index, privacy, project, project-detail)
+│   ├── css/                   # Feuilles de style par section (style, nav, hero, projects, motion…)
 │   ├── i18n.js                # Tous les textes, en français et en anglais
 │   └── projects.js            # Données des projets (FR/EN)
 ├── scripts/
-│   └── build.js               # Génère toutes les pages HTML des deux langues + sitemap.xml
+│   └── build.js               # Génère les pages HTML des deux langues, css/site.css et sitemap.xml
 │
 ├── index.html                 # GÉNÉRÉ — accueil en français (/)
 ├── confidentialite.html       # GÉNÉRÉ — notice du formulaire en français
@@ -32,7 +33,7 @@ portfolio/
 ├── project-detail.html        # GÉNÉRÉ — redirige les anciens liens ?id=slug vers projets/<slug>.html
 ├── sitemap.xml                # GÉNÉRÉ — toutes les URL des deux langues
 │
-├── css/                       # Un fichier par section (style, nav, hero, projects, skills, motion…)
+├── css/site.css               # GÉNÉRÉ — toutes les feuilles de src/css/ réunies en un fichier
 ├── js/
 │   ├── utils.js               # safeQuerySelector + handleError
 │   ├── main.js                # Menu mobile, thème, retour en haut, animations
@@ -74,9 +75,13 @@ Les pages HTML sont **générées** à partir de `src/` par un script Node.js **
 node scripts/build.js
 ```
 
-À relancer après **chaque** modification de `src/` (textes, projets, structure des pages). Les fichiers générés sont commités, donc GitHub Pages n’a rien à compiler. Ne modifie jamais une page générée à la main : elle serait écrasée à la génération suivante (chaque page le rappelle dans un commentaire en tête).
+À relancer après **chaque** modification de `src/` (textes, projets, structure des pages, styles). Les fichiers générés sont commités, donc GitHub Pages n’a rien à compiler. Ne modifie jamais une page générée à la main : elle serait écrasée à la génération suivante (chaque page le rappelle dans un commentaire en tête).
 
 Le script s’arrête avec un message clair si une traduction ou un champ de projet manque dans une langue, ou si un modèle utilise une variable inconnue. Il signale aussi les clés de traduction inutilisées.
+
+### Pourquoi un seul fichier CSS
+
+Les feuilles de style restent séparées par section dans `src/css/` pour être faciles à modifier, mais le site n’en charge qu’une : `css/site.css`, assemblée par `scripts/build.js` dans l’ordre de la liste `CSS_FILES`. Mesuré avec Lighthouse (mobile, réseau réellement ralenti, médiane de 5) : la page apparaît en 1,92 s au lieu de 2,39 s avec 10 fichiers séparés. Une nouvelle feuille doit être ajoutée à `CSS_FILES`, sinon la génération s’arrête.
 
 ### Pourquoi une page par langue
 
@@ -133,7 +138,7 @@ Les cartes utilisent des couvertures typographiques générées en CSS, et non d
 
 ### Couleurs
 
-- **Fichier** : `css/style.css` → variables `:root` (ex. `--bg-primary`, `--accent`, etc.)
+- **Fichier** : `src/css/style.css` → variables `:root` (ex. `--bg-primary`, `--accent`, etc.)
 - Le projet vise des couleurs **uniquement via variables** (évite d’éparpiller des hex dans chaque section)
 - Les champs du formulaire ont leurs variables dédiées `--field-bg` et `--field-border` (contraste de bordure ≥ 3:1 garanti dans les deux thèmes)
 

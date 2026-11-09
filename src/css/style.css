@@ -138,6 +138,16 @@ a:hover {
   margin-inline: auto;
 }
 
+.section-kicker {
+  margin: 0 0 1rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
 .section-title {
   margin: 0;
   color: var(--text-primary);
