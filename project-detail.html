@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- Page générée par scripts/build.js depuis src/templates/project-detail.html — ne pas modifier à la main -->
 <!-- Ancienne URL des fiches (project-detail.html?id=slug) : redirige vers projets/<slug>.html -->
 <html lang="fr">
   <head>
@@ -7,12 +8,11 @@
     <meta name="robots" content="noindex" />
     <title>Christopher AHO GLELE | Projets</title>
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
-    <script src="./js/projects.js"></script>
     <script>
       (function () {
+        var slugs = ["password-manager","clinic-management-system","loady","digitech","site-restaurant","site-vitrine"];
         var slug = new URLSearchParams(window.location.search).get("id");
-        var exists = projects.some(function (p) { return p.slug === slug; });
-        window.location.replace(exists ? "./projets/" + slug + ".html" : "./index.html#projects");
+        window.location.replace(slugs.indexOf(slug) !== -1 ? "./projets/" + slug + ".html" : "./index.html#projects");
       })();
     </script>
   </head>

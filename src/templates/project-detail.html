@@ -1,0 +1,22 @@
+<!doctype html>
+{{html:generatedNotice}}
+<!-- Ancienne URL des fiches (project-detail.html?id=slug) : redirige vers projets/<slug>.html -->
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Christopher AHO GLELE | Projets</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <script>
+      (function () {
+        var slugs = {{html:slugsJson}};
+        var slug = new URLSearchParams(window.location.search).get("id");
+        window.location.replace(slugs.indexOf(slug) !== -1 ? "./projets/" + slug + ".html" : "./index.html#projects");
+      })();
+    </script>
+  </head>
+  <body>
+    <p><a href="./index.html#projects">Voir les projets</a></p>
+  </body>
+</html>

@@ -5,17 +5,13 @@
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * Retourne un libellé traduit (contact.*) selon la langue active.
- * @param {string} keySuffix - Suffixe de clé (ex. success)
+ * Message du formulaire dans la langue de la page (attributs data-msg-* écrits par scripts/build.js).
+ * @param {string} name - required, email, message, error, success ou sending
  * @returns {string} Texte
  */
-function contactT(keySuffix) {
-  if (typeof translations === "undefined" || !translations) {
-    return keySuffix;
-  }
-  const lang = localStorage.getItem("lang") === "en" ? "en" : "fr";
-  const key = `contact.${keySuffix}`;
-  return translations[lang][key] || translations.fr[key] || "";
+function contactMessage(name) {
+  const form = document.querySelector("#contact-form");
+  return form?.dataset[`msg${name[0].toUpperCase()}${name.slice(1)}`] || "";
 }
 
 /**
@@ -103,13 +99,13 @@ function getFirstFormIssue(p) {
     } else {
       first = p.message;
     }
-    return { message: contactT("error.required"), first };
+    return { message: contactMessage("required"), first };
   }
   if (!EMAIL_PATTERN.test(email)) {
-    return { message: contactT("error.email"), first: p.email };
+    return { message: contactMessage("email"), first: p.email };
   }
   if (message.length < 10) {
-    return { message: contactT("error.message"), first: p.message };
+    return { message: contactMessage("message"), first: p.message };
   }
   return { message: "", first: null };
 }
@@ -151,16 +147,17 @@ function handleContactSubmit(form, f, fieldList) {
   // Honeypot rempli = bot détecté : faux succès affiché, aucun envoi effectué.
   const honeyField = form.elements.namedItem("_honey");
   if (honeyField && honeyField.value.trim() !== "") {
-    setFeedback(contactT("success"), "success");
+    setFeedback(contactMessage("success"), "success");
     form.reset();
     return;
   }
 
-  // Disable submit button during sending
   const submitBtn = form.querySelector(".contact-submit");
+  const submitLabel = submitBtn?.querySelector("[data-submit-label]");
+  const defaultLabel = submitLabel?.textContent || "";
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.textContent = contactT("sending") || "Envoi en cours...";
+    if (submitLabel) submitLabel.textContent = contactMessage("sending");
   }
 
   const subjectLabel = f.subject.options[f.subject.selectedIndex]?.text || f.subject.value;
@@ -187,17 +184,17 @@ function handleContactSubmit(form, f, fieldList) {
       if (!response.ok || result.success === "false" || result.success === false) {
         throw new Error("FormSubmit rejected the submission");
       }
-      setFeedback(contactT("success"), "success");
+      setFeedback(contactMessage("success"), "success");
       form.reset();
       clearAllErrors(fieldList);
     })
     .catch(() => {
-      setFeedback(contactT("error.send") || "Une erreur est survenue. Réessayez ou contactez-moi par email.", "error");
+      setFeedback(contactMessage("error"), "error");
     })
     .finally(() => {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = contactT("send") || "Envoyer le message →";
+        if (submitLabel) submitLabel.textContent = defaultLabel;
       }
     });
 }

@@ -67,24 +67,29 @@ header {
   border-radius: 0.35rem;
 }
 
-.lang-switch button {
+.lang-switch a {
+  display: inline-flex;
   min-width: 2.4rem;
   min-height: 2.25rem;
+  align-items: center;
+  justify-content: center;
   padding: 0.25rem 0.5rem;
-  border: 0;
   border-radius: 0.2rem;
-  background: transparent;
   color: var(--text-muted);
-  cursor: pointer;
   font-size: 0.78rem;
   font-weight: 700;
+  text-decoration: none;
 }
 
-.lang-switch button.active {
+.lang-switch a:hover {
+  color: var(--text-primary);
+}
+
+.lang-switch a[aria-current="page"] {
   background: var(--accent);
   color: #fff;
 }
-:root[data-theme="dark"] .lang-switch button.active { color:#111923; }
+:root[data-theme="dark"] .lang-switch a[aria-current="page"] { color:#111923; }
 
 .theme-toggle {
   display:inline-flex;
