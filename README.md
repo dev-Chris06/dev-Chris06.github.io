@@ -18,39 +18,30 @@
 
 ```text
 portfolio/
-├── index.html                 # Page d’accueil (toutes les sections)
-├── projets/                   # Une page HTML par projet, GÉNÉRÉE par scripts/generate-project-pages.js
-├── project-detail.html        # Redirige les anciens liens ?id=slug vers projets/<slug>.html
-├── confidentialite.html      # Notice lisible sur le formulaire de contact
-├── README.md                  # La doc (ce fichier)
+├── src/                       # SOURCES : c’est ici qu’on modifie le contenu
+│   ├── templates/             # Structure des pages (index, privacy, project, project-detail)
+│   ├── i18n.js                # Tous les textes, en français et en anglais
+│   └── projects.js            # Données des projets (FR/EN)
+├── scripts/
+│   └── build.js               # Génère toutes les pages HTML des deux langues + sitemap.xml
 │
-├── css/
-│   ├── style.css              # Palette, styles de base et accessibilité
-│   ├── nav.css                # Barre de navigation (sticky, burger, langue)
-│   ├── hero.css               # Présentation initiale et appels à l’action
-│   ├── about.css              # Section À propos
-│   ├── projects.css           # Grille, couvertures graphiques et fiches projet
-│   ├── skills.css             # Liste des technologies
-│   ├── services.css           # Cartes de services
-│   ├── contact.css            # Section contact + styles formulaire
-│   ├── footer.css             # Pied de page
-│   ├── motion.css             # Animations sobres (hero, apparition au défilement, transitions de page)
-│   └── privacy.css            # Page de confidentialité
+├── index.html                 # GÉNÉRÉ — accueil en français (/)
+├── confidentialite.html       # GÉNÉRÉ — notice du formulaire en français
+├── projets/                   # GÉNÉRÉ — une fiche par projet en français
+├── en/                        # GÉNÉRÉ — version anglaise : index.html, privacy.html, projects/
+├── project-detail.html        # GÉNÉRÉ — redirige les anciens liens ?id=slug vers projets/<slug>.html
+├── sitemap.xml                # GÉNÉRÉ — toutes les URL des deux langues
 │
+├── css/                       # Un fichier par section (style, nav, hero, projects, skills, motion…)
 ├── js/
 │   ├── utils.js               # safeQuerySelector + handleError
-│   ├── projects.js            # Données des projets (tableau `projects`)
-│   ├── lang.js                # i18n FR/EN + setLanguage
-│   ├── main.js                # Menu, projets, fiches et langue
+│   ├── main.js                # Menu mobile, thème, retour en haut, animations
 │   └── contact.js             # Validation et envoi du formulaire
-│
-├── scripts/
-│   ├── generate-project-pages.js  # Génère projets/*.html et sitemap.xml depuis js/projects.js
-│   └── project-template.html      # Gabarit des pages projet (nav, footer, métadonnées)
 │
 └── assets/
     ├── favicon.svg            # Icône du site
-    └── img/                   # og-image.png (image de partage social)
+    ├── icons/                 # Logos des technologies (SVG servis par le site)
+    └── img/                   # Images de partage social (og-image.png, og/<slug>.png)
 ```
 
 Le CV n’est pas encore fourni. Ajouter le fichier avant de réintroduire un lien de téléchargement.
@@ -75,11 +66,21 @@ cd <votre-depot>
 - **VS Code** : extension **Live Server** → “Go Live” sur `index.html`
 - **Alternative** : n’importe quel serveur statique (évite `file://` pour certains comportements de navigation / modules)
 
-### Pourquoi pas de `npm` / build
+### Générer les pages
 
-Le site est **100% statique** : le navigateur charge directement `index.html` + `css/` + `js/`. Aucun transpile, aucun bundler, aucun package manager requis.
+Les pages HTML sont **générées** à partir de `src/` par un script Node.js **sans dépendance** :
 
-Seule exception : les pages projet sont générées par un script Node.js **sans dépendance** (`node scripts/generate-project-pages.js`). Les fichiers générés sont commités, donc GitHub Pages n’a rien à compiler.
+```bash
+node scripts/build.js
+```
+
+À relancer après **chaque** modification de `src/` (textes, projets, structure des pages). Les fichiers générés sont commités, donc GitHub Pages n’a rien à compiler. Ne modifie jamais une page générée à la main : elle serait écrasée à la génération suivante (chaque page le rappelle dans un commentaire en tête).
+
+Le script s’arrête avec un message clair si une traduction ou un champ de projet manque dans une langue, ou si un modèle utilise une variable inconnue. Il signale aussi les clés de traduction inutilisées.
+
+### Pourquoi une page par langue
+
+Google recommande une URL distincte par langue plutôt qu’un changement de langue en JavaScript sur la même page : la version anglaise (`/en/`) est ainsi indexée, et chaque page s’affiche directement dans sa langue, sans attendre de script. Chaque page déclare sa version dans l’autre langue (`hreflang`, `x-default` vers le français). Le sélecteur FR/EN est un simple lien vers la page équivalente ; il n’y a pas de redirection automatique selon la langue du navigateur (déconseillée par Google).
 
 ---
 
@@ -112,26 +113,23 @@ git push origin main
 
 ### Visuels des projets
 
-Les cartes utilisent des couvertures typographiques générées en CSS, et non des photos génériques présentées comme captures des applications. Remplace-les par de vraies captures lorsque tu en auras, en mettant à jour le rendu dans `js/main.js`, le gabarit `scripts/project-template.html` et les données dans `js/projects.js`.
+Les cartes utilisent des couvertures typographiques générées en CSS, et non des photos génériques présentées comme captures des applications. Remplace-les par de vraies captures lorsque tu en auras, en mettant à jour le rendu des cartes dans `scripts/build.js`, le modèle `src/templates/project.html` et les données dans `src/projects.js`.
 
 > `assets/img/og-image.png` sert d'image de partage social (Open Graph / Twitter) sur l'accueil et la page confidentialité. Chaque page projet utilise sa propre image, `assets/img/og/<slug>.png` : en ajoutant un projet, ajoute aussi son image (1200 × 630 px).
 
 ### Email & WhatsApp
 
-- **Fichier** : `index.html` (section **Contact**)
-- Les coordonnées affichées se trouvent dans la section Contact de `index.html` ; les libellés associés sont dans `js/lang.js`.
+- **Fichier** : `src/templates/index.html` (section **Contact**)
+- Les libellés associés sont dans `src/i18n.js`.
 - N’ajoute un nouveau profil externe que lorsque son URL personnelle est disponible.
 - Même principe pour les icônes du **footer** (les liens doivent matcher)
 
 ### Textes (FR / EN)
 
-- **Fichier principal** : `js/lang.js` → objet `translations`
-- Le HTML utilise `data-i18n="cle"` et parfois :
-  - `data-i18n-placeholder="cle"` (placeholders)
-  - `data-i18n-aria="cle"` (libellés accessibles)
-- Règle : **chaque clé** doit exister en **FR et EN** (sinon fallback FR + avertissement console)
-- Règle : le texte de repli du HTML doit être **identique** à la valeur `lang.js` correspondante (zéro divergence : c'est `lang.js` qui s'affiche au chargement)
-- Règle : les flèches décoratives (`↘`, `←`, `→`) ne vont **jamais** dans les traductions. Elles restent dans le HTML, dans un `<span aria-hidden="true">`, pour ne pas polluer le nom accessible lu par les lecteurs d'écran
+- **Fichier** : `src/i18n.js` (objets `fr` et `en`)
+- Dans les modèles (`src/templates/`), un texte traduit s’écrit `{{t:cle}}`, aussi bien dans le contenu que dans un attribut (`aria-label="{{t:cle}}"`, `placeholder="{{t:cle}}"`).
+- Règle : **chaque clé** doit exister en **FR et EN** (sinon la génération s’arrête).
+- Règle : les flèches décoratives (`↘`, `←`, `→`) ne vont **jamais** dans les traductions. Elles restent dans le HTML, dans un `<span aria-hidden="true">`, pour ne pas polluer le nom accessible lu par les lecteurs d'écran.
 
 ### Couleurs
 
@@ -148,14 +146,14 @@ Les cartes utilisent des couvertures typographiques générées en CSS, et non d
 ### Liens réseaux sociaux (cohérence)
 
 Mets **les mêmes URLs** ici :
-- `index.html` → section **Contact** (lignes de liens) + `index.html` → **footer** (icônes)
-- `scripts/project-template.html` (nav/footer des pages projet), puis relance `node scripts/generate-project-pages.js`
+- `src/templates/index.html` → section **Contact** (lignes de liens) + **footer** (icônes)
+- `src/templates/privacy.html` et `src/templates/project.html` (footer), puis relance `node scripts/build.js`
 
 ### Formulaire et WhatsApp (comportements)
 
 - **Honeypot** `_honey` : si le champ caché est rempli par un bot, le formulaire affiche un faux succès et **n’envoie rien** (anti-spam silencieux, côté `js/contact.js`).
 - **WhatsApp** : les liens utilisent le format canonique `https://wa.me/<numéro>` **sans** signe `+`.
-- **Langue** : les boutons FR/EN sont attachés en `addEventListener` (fonction `initLanguageSwitch` de `js/main.js`) — ne pas réintroduire de `onclick` inline.
+- **Messages du formulaire** : ils sont écrits dans la page par la génération (attributs `data-msg-*` du formulaire), dans la langue de la page ; `js/contact.js` les lit sans dépendre d’un fichier de traduction.
 
 ---
 
@@ -163,14 +161,14 @@ Mets **les mêmes URLs** ici :
 
 ### Où ?
 
-- **Fichier** : `js/projects.js`
+- **Fichier** : `src/projects.js`
 - Ajoute un nouvel objet dans le tableau `projects`, puis **régénère les pages** :
 
 ```bash
-node scripts/generate-project-pages.js
+node scripts/build.js
 ```
 
-Le script crée `projets/<slug>.html` (contenu FR, titre, description, canonical et aperçu social propres au projet) et met à jour `sitemap.xml`. Le passage en anglais est fait par `js/main.js` dans le navigateur. Ne modifie pas les fichiers de `projets/` à la main : ils sont écrasés à chaque génération.
+Le script crée `projets/<slug>.html` et `en/projects/<slug>.html` (titre, description, canonical, `hreflang` et aperçu social propres au projet), ajoute la carte dans la grille des deux accueils et met à jour `sitemap.xml`.
 
 ### Critère d’entrée
 
@@ -178,7 +176,7 @@ Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt
 
 ### Exemple (copier-coller)
 
-> Le `slug` doit être **unique** : il donne l’URL `projets/<slug>.html`. `order` fixe la position dans la grille (croissant).
+> Le `slug` doit être **unique** : il donne les URL `projets/<slug>.html` et `en/projects/<slug>.html`. `order` fixe la position dans la grille (croissant).
 
 ```js
 {
@@ -208,35 +206,22 @@ Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt
 
 ## 7. Ajouter / modifier une traduction
 
-### Ajouter une nouvelle clé
+1. Ouvre `src/i18n.js`
+2. Ajoute la même clé dans `fr` **et** `en`
+3. Utilise `{{t:ma.cle}}` à l’endroit voulu dans le modèle (`src/templates/…`)
+4. Lance `node scripts/build.js`, puis vérifie la page française **et** la page anglaise
 
-1. Ouvre `js/lang.js`
-2. Ajoute la même clé dans `translations.fr` **et** `translations.en`
-3. Utilise `data-i18n="ma.cle"` sur l’élément HTML concerné
-4. Recharge : `setLanguage` applique le texte sur tous les `data-i18n`
+Cas particulier : `footer.copyright` contient le marqueur `{year}`, remplacé par l’année à la génération (et tenu à jour dans le navigateur par `js/main.js`).
 
-### Cas fréquents
-
-- **Placeholder d’input** : `data-i18n-placeholder="ma.cle"`
-- **ARIA** : `data-i18n-aria="ma.cle"`
-- **Copyright avec année** : clé `footer.copyright` avec le token `{year}` (géré par `setLanguage`)
-
-### Pourquoi éviter d’éditer le HTML “en dur”
-
-Le site est conçu pour que **tout le contenu bilingue** pivote autour de `lang.js` + `setLanguage` :
-- moins d’oublis (FR/EN)
-- moins de divergences (navbar vs footer)
-- le HTML reste un **gabarit stable**
-
-> Exception normale : URLs réelles (mailto, wa.me) → ce sont des données, pas de la “traduction”.
+> Les URL réelles (mailto, wa.me, GitHub) sont des données, pas des traductions : elles restent écrites directement dans les modèles.
 
 ---
 
 ## 8. Limitations connues
 
 - **Pas de backend applicatif** : le formulaire transmet ses champs à FormSubmit, qui les envoie par email. Au premier envoi, confirmer l’adresse de réception dans le message d’activation reçu.
-- **Pas de CMS** : contenu géré en fichiers (`lang.js`, `projects.js`, HTML)
-- **Pas de build** : pas de minification / pipeline (volontairement simple)
+- **Pas de CMS** : contenu géré en fichiers (`src/i18n.js`, `src/projects.js`, `src/templates/`)
+- **Génération manuelle** : `node scripts/build.js` doit être lancé avant de committer ; pas de minification (volontairement simple)
 
 ---
 
