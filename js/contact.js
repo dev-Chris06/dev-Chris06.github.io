@@ -1,5 +1,10 @@
 /**
- * Formulaire de contact: validation, accessibilité et retours utilisateur.
+ * Formulaire de contact : validation, accessibilité et retours utilisateur.
+ *
+ * Deux zones de message, chacune annoncée une seule fois par les lecteurs d'écran :
+ * - #form-error-message : erreur de validation, reliée au champ fautif (aria-describedby),
+ *   lue quand le focus arrive sur ce champ ;
+ * - #form-feedback (role="status", fixe) : résultat de l'envoi, annoncé sans déplacer le focus.
  */
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,8 +62,10 @@ function clearAllErrors(fields) {
 }
 
 /**
+ * Écrit le résultat de l'envoi dans la zone #form-feedback (vide = effacer).
+ * Le rôle de la zone ne change jamais : les lecteurs d'écran gèrent mal un rôle modifié en cours de route.
  * @param {string} message - texte
- * @param {"error"|"success"} kind - type
+ * @param {"error"|"success"} [kind] - type
  */
 function setFeedback(message, kind) {
   const feedback = safeQuerySelector("#form-feedback");
@@ -66,16 +73,8 @@ function setFeedback(message, kind) {
     return;
   }
   feedback.textContent = message;
-  if (!message) {
-    feedback.classList.remove("is-error", "is-success");
-    feedback.setAttribute("role", "status");
-    feedback.setAttribute("aria-live", "polite");
-    return;
-  }
-  feedback.classList.toggle("is-error", kind === "error");
-  feedback.classList.toggle("is-success", kind === "success");
-  feedback.setAttribute("role", kind === "error" ? "alert" : "status");
-  feedback.setAttribute("aria-live", kind === "error" ? "assertive" : "polite");
+  feedback.classList.toggle("is-error", Boolean(message) && kind === "error");
+  feedback.classList.toggle("is-success", Boolean(message) && kind === "success");
 }
 
 /**
@@ -116,6 +115,11 @@ function getFirstFormIssue(p) {
 function bindContactFieldReset(fields) {
   fields.forEach((field) => {
     field.addEventListener("input", () => {
+      // Le message visible concerne ce champ : il disparaît dès que la personne le corrige.
+      if (field.getAttribute("aria-describedby") === "form-error-message") {
+        const errHost = document.querySelector("#form-error-message");
+        if (errHost) errHost.textContent = "";
+      }
       markValid(field);
     });
   });
@@ -128,7 +132,7 @@ function bindContactFieldReset(fields) {
  */
 function handleContactSubmit(form, f, fieldList) {
   clearAllErrors(fieldList);
-  setFeedback("", "success");
+  setFeedback("");
   const issue = getFirstFormIssue({
     name: f.name,
     email: f.email,
@@ -136,7 +140,6 @@ function handleContactSubmit(form, f, fieldList) {
     message: f.message
   });
   if (issue.message) {
-    setFeedback(issue.message, "error");
     markInvalid(issue.first, issue.message);
     if (issue.first) {
       issue.first.focus();

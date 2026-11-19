@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- Page générée par scripts/build.js depuis src/templates/404.html — ne pas modifier à la main -->
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Page introuvable | Christopher AHO GLELE</title>
+    <meta name="theme-color" content="#f7f6f2" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <script>
+      (function () {
+        var theme = null;
+        try { theme = localStorage.getItem("theme"); } catch (_) {}
+        if (theme !== "dark" && theme !== "light") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = theme;
+        if (theme === "dark") document.querySelector('meta[name="theme-color"]').content = "#111923";
+      })();
+    </script>
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body>
+    <main id="main-content" class="container privacy-content">
+      <p class="section-kicker">404</p>
+      <h1 class="section-title">Page introuvable</h1>
+      <p class="privacy-lead">Cette adresse ne correspond à aucune page du portfolio. Elle a peut-être changé, ou contient une faute de frappe.</p>
+      <a class="btn-primary" href="/">Retour à l’accueil</a>
+      <section lang="en">
+        <h2>Page not found</h2>
+        <p>This address does not match any page of the portfolio. It may have changed, or contain a typo.</p>
+        <a class="btn-outline" href="/en/">Back to home</a>
+      </section>
+    </main>
+  </body>
+</html>
