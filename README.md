@@ -185,9 +185,9 @@ Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt
 
 ```js
 {
-  id: 7,
+  id: 8,
   slug: "mon-nouveau-projet",
-  order: 7,
+  order: 8,
   title: { fr: "Mon Nouveau Projet", en: "My New Project" },
   kind: { fr: "Application web", en: "Web application" },
   description: { fr: "Résumé court (carte et métadonnées).", en: "Short summary (card and metadata)." },
@@ -196,7 +196,7 @@ Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt
   technical: { fr: "Choix techniques.", en: "Technical choices." },
   note: { fr: "Limites ou contexte (optionnel).", en: "Limits or context (optional)." },
   tags: ["HTML", "CSS"],
-  cover: "vault",           // style de couverture : vault | clinic | restaurant | company | mobile | agency (src/css/projects.css)
+  cover: "vault",           // style de couverture : vault | clinic | restaurant | company | mobile | agency | budget (src/css/projects.css)
   github: "https://github.com/dev-Chris06/mon-projet",
   demo: null                // URL de la démo, ou null pour masquer le bouton
 }
