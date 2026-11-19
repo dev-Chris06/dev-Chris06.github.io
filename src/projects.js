@@ -7,7 +7,7 @@ const projects = [
   {
     id: 1,
     slug: "site-restaurant",
-    order: 5,
+    order: 6,
     title: { fr: "Le Réconfort — site de restaurant", en: "Le Réconfort — Restaurant Website" },
     kind: { fr: "Site vitrine", en: "Showcase website" },
     description: {
@@ -38,7 +38,7 @@ const projects = [
   {
     id: 2,
     slug: "site-vitrine",
-    order: 6,
+    order: 7,
     title: { fr: "Bénin Tech Labs — site vitrine", en: "Bénin Tech Labs — Showcase Website" },
     kind: { fr: "Site multipage", en: "Multipage website" },
     description: {
@@ -74,24 +74,24 @@ const projects = [
     title: { fr: "Password Manager", en: "Password Manager" },
     kind: { fr: "Application web full stack", en: "Full-stack web application" },
     description: {
-      fr: "Gestionnaire de mots de passe zero-knowledge en cours de refonte : le chiffrement se fait dans le navigateur, le serveur ne voit jamais les secrets.",
-      en: "Zero-knowledge password manager being rebuilt: encryption happens in the browser, and the server never sees the secrets."
+      fr: "Gestionnaire de mots de passe zero-knowledge : le chiffrement se fait dans le navigateur, le serveur ne voit jamais les secrets.",
+      en: "Zero-knowledge password manager: encryption happens in the browser, and the server never sees the secrets."
     },
     overview: {
-      fr: "Ce gestionnaire de mots de passe est en cours de refonte vers une architecture zero-knowledge. Tout le chiffrement a lieu dans le navigateur ou dans l’extension Chrome : le serveur ne voit jamais ni le mot de passe maître ni les secrets. La première version chiffrait les données côté serveur, ce qui permettait au serveur de les lire ; elle reste consultable sous le tag git avant-refonte.",
-      en: "This password manager is being rebuilt on a zero-knowledge architecture. All encryption happens in the browser or the Chrome extension: the server never sees the master password or the secrets. The first version encrypted data on the server, which let the server read it; it remains available under the avant-refonte git tag."
+      fr: "Ce gestionnaire de mots de passe auto-hébergé repose sur une architecture zero-knowledge : tout le chiffrement a lieu dans le navigateur ou dans l’extension Chrome, et le serveur ne voit jamais ni le mot de passe maître ni les secrets. Il s’inspire des pratiques de Bitwarden et 1Password et des recommandations OWASP. La première version chiffrait les données côté serveur, ce qui permettait au serveur de les lire ; elle reste consultable sous le tag git avant-refonte.",
+      en: "This self-hosted password manager is built on a zero-knowledge architecture: all encryption happens in the browser or the Chrome extension, and the server never sees the master password or the secrets. It draws on Bitwarden and 1Password practices and OWASP recommendations. The first version encrypted data on the server, which let the server read it; it remains available under the avant-refonte git tag."
     },
     highlights: {
-      fr: ["Chiffrement côté client : Argon2id avec une clé secrète supplémentaire, puis AES-256-GCM.", "Double authentification TOTP obligatoire et codes de secours.", "Coffre sur une seule page avec verrouillage automatique, générateur et sauvegarde chiffrée.", "Vérification des mots de passe exposés dans des fuites (Have I Been Pwned, k-anonymat).", "Extension Chrome qui déchiffre localement et ne remplit que sur le bon domaine."],
-      en: ["Client-side encryption: Argon2id with an additional secret key, then AES-256-GCM.", "Mandatory TOTP two-factor authentication and recovery codes.", "Single-page vault with auto-lock, generator, and encrypted backup.", "Breached password check (Have I Been Pwned, k-anonymity).", "Chrome extension that decrypts locally and only fills on the right domain."]
+      fr: ["Chiffrement côté client : Argon2id avec une Secret Key de 128 bits, puis AES-256-GCM.", "Double authentification TOTP obligatoire et codes de secours à usage unique.", "Coffre sur une seule page avec recherche, générateur et verrouillage automatique.", "Sauvegardes chiffrées lisibles sans serveur, restauration testée après la perte de la base.", "Vérification des mots de passe exposés dans des fuites (Have I Been Pwned, k-anonymat).", "Extension Chrome qui déchiffre localement et ne remplit que sur le bon domaine."],
+      en: ["Client-side encryption: Argon2id with a 128-bit Secret Key, then AES-256-GCM.", "Mandatory TOTP two-factor authentication and single-use recovery codes.", "Single-page vault with search, generator, and auto-lock.", "Encrypted backups readable without the server, with restore tested after losing the database.", "Breached password check (Have I Been Pwned, k-anonymity).", "Chrome extension that decrypts locally and only fills on the right domain."]
     },
     technical: {
-      fr: "Le serveur Symfony 7.4 (PHP 8.3+, Doctrine, MySQL) se limite à stocker, authentifier, limiter les tentatives et journaliser. Le client et l’extension sont écrits en TypeScript, avec WebCrypto et Argon2id compilé en WebAssembly. La qualité est suivie avec PHPUnit, PHPStan, Vitest, ESLint, Playwright et une intégration continue GitHub Actions. Le plan de refonte et les décisions techniques sont documentés dans le dépôt.",
-      en: "The Symfony 7.4 server (PHP 8.3+, Doctrine, MySQL) only stores, authenticates, rate-limits, and logs. The client and the extension are written in TypeScript, with WebCrypto and Argon2id compiled to WebAssembly. Quality is tracked with PHPUnit, PHPStan, Vitest, ESLint, Playwright, and GitHub Actions continuous integration. The rebuild plan and technical decisions are documented in the repository."
+      fr: "Le serveur Symfony 7.4 (PHP 8.3+, Doctrine, MySQL ou MariaDB) se limite à stocker des blocs chiffrés, authentifier, limiter les tentatives et journaliser. Le client et l’extension sont écrits en TypeScript, avec WebCrypto et Argon2id compilé en WebAssembly. Plus de 150 tests (PHPUnit, Vitest, Playwright) tournent en intégration continue sur GitHub Actions, dont un parcours complet qui vérifie qu’aucun secret ne circule en clair. Une revue de sécurité finale a été menée selon l’OWASP ASVS niveau 2.",
+      en: "The Symfony 7.4 server (PHP 8.3+, Doctrine, MySQL or MariaDB) only stores encrypted blobs, authenticates, rate-limits, and logs. The client and the extension are written in TypeScript, with WebCrypto and Argon2id compiled to WebAssembly. More than 150 tests (PHPUnit, Vitest, Playwright) run in GitHub Actions continuous integration, including a full journey that checks no secret ever travels in clear text. A final security review was carried out against OWASP ASVS level 2."
     },
     note: {
-      fr: "Refonte en cours : les fonctionnalités ci-dessus décrivent l’application visée, construite étape par étape selon le plan publié dans le dépôt. Aucune démo publique n’est liée à cette fiche.",
-      en: "Rebuild in progress: the features above describe the target application, built step by step according to the plan published in the repository. No public demo is linked from this page."
+      fr: "L’application est conçue pour être auto-hébergée : aucune démo publique n’est en ligne. Le dépôt contient des captures d’écran, le modèle de menace, les décisions techniques et les guides de déploiement.",
+      en: "The application is designed to be self-hosted, so there is no public demo. The repository includes screenshots, the threat model, the technical decisions, and deployment guides."
     },
     tags: ["Symfony", "TypeScript", "WebCrypto", "MySQL"],
     cover: "vault",
@@ -130,9 +130,40 @@ const projects = [
     demo: null
   },
   {
+    id: 7,
+    slug: "expense-tracker",
+    order: 3,
+    title: { fr: "Dépenses — suivi de budget", en: "Dépenses — Budget Tracker" },
+    kind: { fr: "Application mobile React Native", en: "React Native mobile app" },
+    description: {
+      fr: "Application Android de suivi des dépenses et des budgets en FCFA, entièrement hors ligne, développée avec Expo et React Native.",
+      en: "Android app for tracking expenses and budgets in CFA francs, fully offline, built with Expo and React Native."
+    },
+    overview: {
+      fr: "Dépenses aide à suivre son argent au quotidien : on note une dépense ou un revenu en quelques secondes, on fixe des budgets par catégorie et on voit chaque mois où part l’argent. Tout reste sur le téléphone, sans compte ni connexion. Cette version Expo / React Native fait partie d’un comparatif : la même application existe en Flutter, avec exactement les mêmes fonctionnalités.",
+      en: "Dépenses helps people track their money day to day: log an expense or income in a few seconds, set budgets per category, and see where the money goes each month. Everything stays on the phone, with no account and no connection. This Expo / React Native version is part of a comparison: the same app exists in Flutter, with exactly the same features."
+    },
+    highlights: {
+      fr: ["Dépenses et revenus en FCFA, avec des catégories personnalisables (nom, icône, couleur).", "Budget du mois, global ou par catégorie, avec une alerte à 80 % puis à 100 %.", "Recherche sans accents ni majuscules, filtres par type et par catégorie.", "Statistiques du mois, répartition par catégorie et historique sur 12 mois.", "Thème clair, sombre ou celui du téléphone ; l’application signale elle-même ses nouvelles versions."],
+      en: ["Expenses and income in CFA francs, with customizable categories (name, icon, color).", "Monthly budget, overall or per category, with an alert at 80% then 100%.", "Accent- and case-insensitive search, filters by type and category.", "Monthly statistics, breakdown by category, and a 12-month history.", "Light, dark, or system theme; the app announces its own new versions."]
+    },
+    technical: {
+      fr: "L’application utilise Expo, React Native et expo-router, en TypeScript strict. Les données sont stockées dans SQLite sur le téléphone, avec un schéma versionné par migrations. Des tests Jest couvrent la logique et les migrations sur une vraie base SQLite. GitHub Actions construit et publie l’APK à chaque version, et un test de démarrage l’installe sur des émulateurs Android 7 à 16.",
+      en: "The app uses Expo, React Native, and expo-router, in strict TypeScript. Data is stored in SQLite on the phone, with a schema versioned through migrations. Jest tests cover the logic and the migrations on a real SQLite database. GitHub Actions builds and publishes the APK for each version, and a startup test installs it on Android 7 to 16 emulators."
+    },
+    note: {
+      fr: "L’APK de la dernière version se télécharge depuis la page Releases du dépôt. La version Flutter du comparatif est dans le dépôt expense-tracker-flutter.",
+      en: "The latest APK can be downloaded from the repository’s Releases page. The Flutter version of the comparison lives in the expense-tracker-flutter repository."
+    },
+    tags: ["React Native", "Expo", "TypeScript", "SQLite"],
+    cover: "budget",
+    github: "https://github.com/dev-Chris06/expense-tracker-expo",
+    demo: null
+  },
+  {
     id: 5,
     slug: "loady",
-    order: 3,
+    order: 4,
     title: { fr: "Loady", en: "Loady" },
     kind: { fr: "Application Android et site de présentation", en: "Android app and landing site" },
     description: {
@@ -163,7 +194,7 @@ const projects = [
   {
     id: 6,
     slug: "digitech",
-    order: 4,
+    order: 5,
     title: { fr: "DIGITECH — site d’agence", en: "DIGITECH — Agency Website" },
     kind: { fr: "Site vitrine bilingue", en: "Bilingual showcase website" },
     description: {
