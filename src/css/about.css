@@ -28,6 +28,25 @@
   line-height: 1.75;
 }
 
+/* Ligne de faits sous la présentation : séparateurs décoratifs en CSS, la liste reste lisible telle quelle. */
+.about-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.about-facts li:not(:last-child)::after {
+  margin-inline: 0.65rem;
+  color: var(--text-muted);
+  content: "·";
+}
+
 @media (max-width: 760px) {
   .about-grid {
     grid-template-columns: 1fr;
@@ -36,5 +55,14 @@
 
   .about-heading .section-title {
     max-width: 16ch;
+  }
+
+  /* Sur petit écran, un fait par ligne : un séparateur ne resterait pas seul en bout de ligne. */
+  .about-facts {
+    flex-direction: column;
+  }
+
+  .about-facts li:not(:last-child)::after {
+    content: none;
   }
 }
