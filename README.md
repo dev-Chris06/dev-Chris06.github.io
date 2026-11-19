@@ -4,10 +4,10 @@
 
 ---
 
-## 1. Présentation 📌
+## 1. Présentation
 
 - **Ce projet** : site vitrine / portfolio **statique** pour présenter l’identité, les compétences, les services, les projets et le contact.
-- **Stack** : **HTML5**, **CSS3** (fichiers par section), **JavaScript** **vanilla** (pas de framework, pas de bundler).
+- **Stack** : **HTML5**, **CSS3** (sources par section, réunies en un seul fichier à la génération), **JavaScript** **vanilla** (pas de framework, pas de bundler).
 - **Déploiement** (GitHub Pages) : [https://dev-Chris06.github.io](https://dev-Chris06.github.io)
 
 ---
@@ -19,7 +19,7 @@
 ```text
 portfolio/
 ├── src/                       # SOURCES : c’est ici qu’on modifie le contenu
-│   ├── templates/             # Structure des pages (index, privacy, project, project-detail)
+│   ├── templates/             # Structure des pages (index, privacy, project)
 │   ├── css/                   # Feuilles de style par section (style, nav, hero, projects, motion…)
 │   ├── i18n.js                # Tous les textes, en français et en anglais
 │   └── projects.js            # Données des projets (FR/EN)
@@ -30,8 +30,8 @@ portfolio/
 ├── confidentialite.html       # GÉNÉRÉ — notice du formulaire en français
 ├── projets/                   # GÉNÉRÉ — une fiche par projet en français
 ├── en/                        # GÉNÉRÉ — version anglaise : index.html, privacy.html, projects/
-├── project-detail.html        # GÉNÉRÉ — redirige les anciens liens ?id=slug vers projets/<slug>.html
 ├── sitemap.xml                # GÉNÉRÉ — toutes les URL des deux langues
+├── robots.txt                 # Autorise l’exploration et indique le sitemap
 │
 ├── css/site.css               # GÉNÉRÉ — toutes les feuilles de src/css/ réunies en un fichier
 ├── js/
@@ -56,11 +56,9 @@ Le thème clair/sombre se règle depuis la navigation et le choix est mémorisé
 ### Cloner
 
 ```bash
-git clone https://github.com/<votre-compte>/<votre-depot>.git
-cd <votre-depot>
+git clone https://github.com/dev-Chris06/dev-Chris06.github.io.git
+cd dev-Chris06.github.io
 ```
-
-> Remplace l’URL par celle de ton dépôt GitHub (copie depuis le bouton **Code** sur GitHub).
 
 ### Lancer (recommandé)
 
@@ -177,7 +175,7 @@ Le script crée `projets/<slug>.html` et `en/projects/<slug>.html` (titre, descr
 
 ### Critère d’entrée
 
-Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt avec README clair, fonctions décrites vérifiables, au moins une capture réelle ou une démo. Voir `plan.md` (R1).
+Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt avec README clair, fonctions décrites vérifiables, au moins une capture réelle ou une démo.
 
 ### Exemple (copier-coller)
 
@@ -185,9 +183,9 @@ Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt
 
 ```js
 {
-  id: 5,
+  id: 7,
   slug: "mon-nouveau-projet",
-  order: 5,
+  order: 7,
   title: { fr: "Mon Nouveau Projet", en: "My New Project" },
   kind: { fr: "Application web", en: "Web application" },
   description: { fr: "Résumé court (carte et métadonnées).", en: "Short summary (card and metadata)." },
@@ -196,7 +194,7 @@ Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt
   technical: { fr: "Choix techniques.", en: "Technical choices." },
   note: { fr: "Limites ou contexte (optionnel).", en: "Limits or context (optional)." },
   tags: ["HTML", "CSS"],
-  cover: "vault",           // style de couverture : vault | clinic | restaurant | company (css/projects.css)
+  cover: "vault",           // style de couverture : vault | clinic | restaurant | company | mobile | agency (src/css/projects.css)
   github: "https://github.com/dev-Chris06/mon-projet",
   demo: null                // URL de la démo, ou null pour masquer le bouton
 }
@@ -234,28 +232,19 @@ Cas particulier : `footer.copyright` contient le marqueur `{year}`, remplacé pa
 
 - **Formulaire** : confirmer le premier envoi FormSubmit et vérifier la réception d’un message réel.
 - **CMS headless** : *Contentful* / *Sanity* (si beaucoup de contenu à éditer)
-- **SEO** : *JSON-LD* (Person/Website), `sitemap.xml`, `robots.txt`, métas par page
 - **CI/CD** : GitHub Actions (tests HTML, déploiement, checks de liens)
 - **Performance** : lazyload images modernes, compression assets, preloads ciblés
 
 ---
 
-## 10. Journal des corrections (octobre 2026)
-
-- **Contenu FR/EN** : harmonisation complète HTML ↔ `lang.js` — les titres réels (« Un développeur proche des besoins métier. », « Du code qui répond à un besoin. », « Du web utile, pensé pour votre activité. ») s’affichent désormais, au lieu d’être écrasés par « À propos » / « Services » au chargement.
-- **Accessibilité** : skip-link de la page détail remonté en tête de page (premier élément focusable) ; clés `nav.backHome` et `detail.backAria` pour des libellés ARIA corrects en EN ; bordures de champs de formulaire à contraste ≥ 3:1 via `--field-bg` / `--field-border`.
-- **Contact** : honeypot silencieux (faux succès, aucun envoi) ; liens WhatsApp au format canonique `wa.me/<numéro>` sans `+` (4 occurrences).
-- **SEO / partage** : `assets/img/og-image.png` (1200×630) + `twitter:card` sur l’accueil et la page confidentialité ; canonical ajouté sur la page confidentialité. Les métadonnées *par projet* restent à traiter avec les futures captures (pages fiches volontairement non modifiées).
-- **Hygiène** : suppression du code mort (`data-stop-nav`, `data-i18n-role`, `.fade-in`, `.about-facts`, `projects.noResult`, `detail.imageCaption`, clés `about.fact.*`) ; bloc year du footer géré uniquement par `lang.js` ; `projects.js` retiré de la page confidentialité ; `onclick` inline remplacés par `initLanguageSwitch()`.
-
-## 11. Licence
+## 10. Licence
 
 Le code est publié sous licence MIT (voir [LICENSE](LICENSE)).
 
 Les textes du site, ma présentation personnelle, mon nom et le logo « CG » ne
 sont pas couverts par cette licence : ils ne peuvent pas être réutilisés.
 
-## 12. Contact
+## 11. Contact
 
 **Mahudjro Shridara Christopher AHO GLELE**  
 GitHub : [https://github.com/dev-Chris06](https://github.com/dev-Chris06)
