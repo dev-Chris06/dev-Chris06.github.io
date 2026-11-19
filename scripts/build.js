@@ -10,6 +10,7 @@
  *   FR : /, /confidentialite.html, /projets/<slug>.html
  *   EN : /en/, /en/privacy.html, /en/projects/<slug>.html
  * Chaque page déclare sa version dans l'autre langue (hreflang).
+ * S'y ajoutent 404.html (bilingue), sitemap.xml et css/site.css.
  *
  * Usage : node scripts/build.js  (aucune dépendance, Node.js suffit).
  * Relancer après chaque modification de src/ ; ne jamais modifier les pages générées à la main.
@@ -28,6 +29,9 @@ const LANGS = {
   en: { prefix: "en/", locale: "en_US", name: "English", privacy: "privacy.html", projectsDir: "projects" },
 };
 const DEFAULT_LANG = "fr";
+// Images d'aperçu générales (assets/img/), une par langue, toutes en 1200 × 630.
+const OG_IMAGES = { fr: "og-image.png", en: "og-image-en.png" };
+const OG_IMAGE_SIZE = { width: 1200, height: 630 };
 const GENERATED_DIRS = ["projets", "en"];
 
 // Feuilles de src/css/ réunies dans css/site.css, dans cet ordre (l'ordre compte pour la cascade).
@@ -140,6 +144,40 @@ function buildThemeToggle(lang) {
   ].join("\n");
 }
 
+/**
+ * Script placé dans le <head>, avant l'affichage : applique le thème mémorisé ou, à défaut,
+ * celui du système (prefers-color-scheme). Sans JavaScript, le site reste en thème clair.
+ */
+function buildThemeScript() {
+  return `    <script>
+      (function () {
+        var theme = null;
+        try { theme = localStorage.getItem("theme"); } catch (_) {}
+        if (theme !== "dark" && theme !== "light") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = theme;
+        if (theme === "dark") document.querySelector('meta[name="theme-color"]').content = "#111923";
+      })();
+    </script>`;
+}
+
+/** Image d'aperçu des réseaux sociaux (Open Graph et X), avec ses dimensions et son texte alternatif. */
+function buildShareMeta(image, alt) {
+  return [
+    `<meta property="og:site_name" content="Christopher AHO GLELE" />`,
+    `<meta property="og:image" content="${escapeHtml(image)}" />`,
+    `<meta property="og:image:width" content="${OG_IMAGE_SIZE.width}" />`,
+    `<meta property="og:image:height" content="${OG_IMAGE_SIZE.height}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(alt)}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:image" content="${escapeHtml(image)}" />`,
+    `<meta name="twitter:image:alt" content="${escapeHtml(alt)}" />`,
+  ]
+    .map((line) => `    ${line}`)
+    .join("\n");
+}
+
 function buildCopyright(lang) {
   const [before, after = ""] = t(lang, "footer.copyright").split("{year}");
   const year = new Date().getFullYear();
@@ -202,6 +240,9 @@ function commonVars(page, templateName) {
     alternateLinks: buildAlternateLinks(page),
     langSwitch: buildLangSwitch(page),
     themeToggle: buildThemeToggle(lang),
+    themeScript: buildThemeScript(),
+    // Image générale ; les fiches projet la remplacent par la leur (projectVars).
+    shareMeta: buildShareMeta(`${SITE_URL}/assets/img/${OG_IMAGES[lang]}`, t(lang, "meta.ogImageAlt")),
     copyright: buildCopyright(lang),
   };
 }
@@ -228,7 +269,7 @@ function projectVars(page, project) {
   return {
     slug: project.slug,
     pageTitle: `${title} | Christopher AHO GLELE`,
-    ogImage: `${SITE_URL}/assets/img/og/${project.slug}.png`,
+    shareMeta: buildShareMeta(`${SITE_URL}/assets/img/og/${project.slug}.png`, `${title} — ${localized(project, "kind", lang)}`),
     title,
     kind: localized(project, "kind", lang),
     description: localized(project, "description", lang),
@@ -301,6 +342,16 @@ function main() {
     const vars = { ...commonVars(page, page.templateName), ...page.extraVars(page) };
     return [page.path, render(readTemplate(page.templateName), page.lang, vars, page.templateName)];
   });
+  // Page d'erreur servie par GitHub Pages pour toute adresse inconnue, quel que soit le dossier :
+  // chemins absolus, et les deux langues sur la même page faute de savoir laquelle était visée.
+  const notFoundVars = {
+    generatedNotice: "<!-- Page générée par scripts/build.js depuis src/templates/404.html — ne pas modifier à la main -->",
+    themeScript: buildThemeScript(),
+    titleEn: t("en", "notFound.title"),
+    textEn: t("en", "notFound.text"),
+    homeEn: t("en", "notFound.home"),
+  };
+  outputs.push(["404.html", render(readTemplate("404.html"), "fr", notFoundVars, "404.html")]);
   outputs.push(["sitemap.xml", buildSitemap(pages)]);
   outputs.push(["css/site.css", buildStylesheet()]);
 

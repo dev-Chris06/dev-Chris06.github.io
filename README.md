@@ -19,7 +19,7 @@
 ```text
 portfolio/
 ├── src/                       # SOURCES : c’est ici qu’on modifie le contenu
-│   ├── templates/             # Structure des pages (index, privacy, project)
+│   ├── templates/             # Structure des pages (index, privacy, project, 404)
 │   ├── css/                   # Feuilles de style par section (style, nav, hero, projects, motion…)
 │   ├── i18n.js                # Tous les textes, en français et en anglais
 │   └── projects.js            # Données des projets (FR/EN)
@@ -30,6 +30,7 @@ portfolio/
 ├── confidentialite.html       # GÉNÉRÉ — notice du formulaire en français
 ├── projets/                   # GÉNÉRÉ — une fiche par projet en français
 ├── en/                        # GÉNÉRÉ — version anglaise : index.html, privacy.html, projects/
+├── 404.html                   # GÉNÉRÉ — page d’erreur bilingue servie par GitHub Pages
 ├── sitemap.xml                # GÉNÉRÉ — toutes les URL des deux langues
 ├── robots.txt                 # Autorise l’exploration et indique le sitemap
 │
@@ -41,13 +42,14 @@ portfolio/
 │
 └── assets/
     ├── favicon.svg            # Icône du site
+    ├── apple-touch-icon.png   # Icône de l’écran d’accueil iPhone/iPad (180 × 180)
     ├── icons/                 # Logos des technologies (SVG servis par le site)
-    └── img/                   # Images de partage social (og-image.png, og/<slug>.png)
+    └── img/                   # Images de partage social (og-image.png, og-image-en.png, og/<slug>.png)
 ```
 
 Le CV n’est pas encore fourni. Ajouter le fichier avant de réintroduire un lien de téléchargement.
 
-Le thème clair/sombre se règle depuis la navigation et le choix est mémorisé dans le navigateur.
+Le thème clair/sombre suit par défaut celui du système (`prefers-color-scheme`). Le bouton de la navigation permet de choisir l’autre ; ce choix est alors mémorisé dans le navigateur et prime sur le système. Le script qui applique le thème avant l’affichage est écrit par `scripts/build.js` (`buildThemeScript`).
 
 ---
 
@@ -118,7 +120,7 @@ git push origin main
 
 Les cartes utilisent des couvertures typographiques générées en CSS, et non des photos génériques présentées comme captures des applications. Remplace-les par de vraies captures lorsque tu en auras, en mettant à jour le rendu des cartes dans `scripts/build.js`, le modèle `src/templates/project.html` et les données dans `src/projects.js`.
 
-> `assets/img/og-image.png` sert d'image de partage social (Open Graph / Twitter) sur l'accueil et la page confidentialité. Chaque page projet utilise sa propre image, `assets/img/og/<slug>.png` : en ajoutant un projet, ajoute aussi son image (1200 × 630 px).
+> `assets/img/og-image.png` (français) et `assets/img/og-image-en.png` (anglais) servent d'image de partage social (Open Graph / X) sur l'accueil et la page confidentialité. Chaque page projet utilise sa propre image, `assets/img/og/<slug>.png` : en ajoutant un projet, ajoute aussi son image (1200 × 630 px). Les balises de partage (dimensions, texte alternatif) sont écrites par `scripts/build.js` (`buildShareMeta`).
 
 ### Email & WhatsApp
 

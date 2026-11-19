@@ -1,12 +1,12 @@
 .skills-section { padding-block:clamp(4rem,8vw,6.5rem); background:color-mix(in srgb, var(--bg-secondary) 72%, transparent); }
 .skills-layout { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:2rem; align-items:start; }
 .skills-groups { display:flex; flex-direction:column; gap:1.5rem; }
-.skills-group-label { font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-secondary); margin:0 0 .6rem; }
+.skills-group-label { font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); margin:0 0 .6rem; }
 .skills-list { display:flex; flex-wrap:wrap; gap:.65rem; margin:0; padding:0; list-style:none; }
 .skills-list li { display:flex; align-items:center; gap:.4rem; padding:.65rem .9rem; border:1px solid var(--border); border-radius:.6rem; background:var(--bg-primary); color:var(--text-primary); font-weight:600; }
 .skill-icon { width:1rem; height:1rem; flex-shrink:0; }
 .skill-icon.skill-icon-md { width:1.25rem; height:1.25rem; }
 .skill-icon.skill-icon-lg { width:1.5rem; height:1.5rem; }
-[data-theme="dark"] .skill-icon-invert { filter:brightness(0) invert(1); }
-@media(prefers-color-scheme:dark) { :root:not([data-theme="light"]) .skill-icon-invert { filter:brightness(0) invert(1); } }
+/* Le thème sombre (choisi ou hérité du système, voir scripts/build.js) éclaircit les logos monochromes. */
+:root[data-theme="dark"] .skill-icon-invert { filter:brightness(0) invert(1); }
 @media(max-width:700px){.skills-layout{grid-template-columns:1fr}}

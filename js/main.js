@@ -76,7 +76,27 @@ function updateThemeToggleLabel() {
   if (icon) icon.textContent = isDark ? "☀" : "☾";
 }
 
+function savedTheme() {
+  try {
+    const theme = localStorage.getItem("theme");
+    return theme === "dark" || theme === "light" ? theme : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+/** Sans choix mémorisé, le site suit le thème du système, y compris s'il change pendant la visite. */
+function followSystemTheme() {
+  const query = window.matchMedia("(prefers-color-scheme: dark)");
+  query.addEventListener("change", (event) => {
+    if (savedTheme()) return;
+    document.documentElement.dataset.theme = event.matches ? "dark" : "light";
+    updateThemeToggleLabel();
+  });
+}
+
 function initThemeToggle() {
+  followSystemTheme();
   const button = document.querySelector("[data-theme-toggle]");
   if (!button) return;
   button.addEventListener("click", () => {

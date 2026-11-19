@@ -5,6 +5,10 @@
 
 module.exports = {
   fr: {
+    "meta.ogImageAlt": "Christopher AHO GLELE, développeur full stack et réseaux",
+    "notFound.title": "Page introuvable",
+    "notFound.text": "Cette adresse ne correspond à aucune page du portfolio. Elle a peut-être changé, ou contient une faute de frappe.",
+    "notFound.home": "Retour à l’accueil",
     "meta.home.title": "Christopher AHO GLELE | Développeur Full Stack & Réseaux",
     "meta.home.description": "Christopher AHO GLELE, développeur Full Stack & Réseaux. Applications web, e-commerce, mobile et automatisations pour les entreprises locales et internationales.",
     "meta.home.ogDescription": "Découvrez les applications web, projets et services de Christopher AHO GLELE, développeur Full Stack & Réseaux au Bénin.",
@@ -112,18 +116,12 @@ module.exports = {
     "contact.info.email": "christopherahoglele9@gmail.com",
     "contact.info.whatsapp": "WhatsApp",
     "contact.info.linkedin": "LinkedIn",
-    "contact.ariaEmail": "Envoyer un email",
-    "contact.ariaWhatsapp": "Contacter sur WhatsApp",
-    "contact.ariaLinkedin": "Profil LinkedIn",
     "footer.tagline":
       "Applications web full stack & automatisation pour les entreprises.",
     "footer.links": "Liens rapides",
     "footer.social": "Réseaux",
     "footer.copyright":
       "© {year} Mahudjro Shridara Christopher AHO GLELE. Tous droits réservés.",
-    "footer.ariaGithub": "Profil GitHub",
-    "footer.ariaLinkedin": "Profil LinkedIn",
-    "footer.ariaWhatsapp": "Contacter sur WhatsApp",
     "nav.about": "À propos",
     "nav.projects": "Projets",
     "nav.skills": "Compétences",
@@ -131,6 +129,10 @@ module.exports = {
     "nav.contact": "Contact",
   },
   en: {
+    "meta.ogImageAlt": "Christopher AHO GLELE, full-stack and networking developer",
+    "notFound.title": "Page not found",
+    "notFound.text": "This address does not match any page of the portfolio. It may have changed, or contain a typo.",
+    "notFound.home": "Back to home",
     "meta.home.title": "Christopher AHO GLELE | Full-Stack & Networking Developer",
     "meta.home.description": "Christopher AHO GLELE, full-stack and networking developer. Web applications, e-commerce, mobile apps and automations for local and international businesses.",
     "meta.home.ogDescription": "Explore the web applications, projects and services of Christopher AHO GLELE, a full-stack and networking developer based in Benin.",
@@ -239,18 +241,12 @@ module.exports = {
     "contact.info.email": "christopherahoglele9@gmail.com",
     "contact.info.whatsapp": "WhatsApp",
     "contact.info.linkedin": "LinkedIn",
-    "contact.ariaEmail": "Send an email",
-    "contact.ariaWhatsapp": "Contact on WhatsApp",
-    "contact.ariaLinkedin": "LinkedIn profile",
     "footer.tagline":
       "Full-stack web applications and automation for businesses.",
     "footer.links": "Quick links",
     "footer.social": "Social",
     "footer.copyright":
       "© {year} Mahudjro Shridara Christopher AHO GLELE. All rights reserved.",
-    "footer.ariaGithub": "GitHub profile",
-    "footer.ariaLinkedin": "LinkedIn profile",
-    "footer.ariaWhatsapp": "Contact on WhatsApp",
     "nav.about": "About",
     "nav.projects": "Projects",
     "nav.skills": "Skills",
