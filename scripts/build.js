@@ -301,11 +301,6 @@ function main() {
     const vars = { ...commonVars(page, page.templateName), ...page.extraVars(page) };
     return [page.path, render(readTemplate(page.templateName), page.lang, vars, page.templateName)];
   });
-  const redirectVars = {
-    generatedNotice: "<!-- Page générée par scripts/build.js depuis src/templates/project-detail.html — ne pas modifier à la main -->",
-    slugsJson: JSON.stringify(projects.map((project) => project.slug)),
-  };
-  outputs.push(["project-detail.html", render(readTemplate("project-detail.html"), "fr", redirectVars, "project-detail.html")]);
   outputs.push(["sitemap.xml", buildSitemap(pages)]);
   outputs.push(["css/site.css", buildStylesheet()]);
 
