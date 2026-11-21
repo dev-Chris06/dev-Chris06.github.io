@@ -1,0 +1,159 @@
+/* Parcours : frise de la formation et cartes de certifications (données : src/journey.js) */
+
+.journey-section {
+  background: color-mix(in srgb, var(--bg-soft) 72%, transparent);
+}
+
+/* Titre au-dessus (comme Projets et Services), puis formation et certifications côte à côte :
+   la section entière tient sur un écran de portable. */
+.journey-groups {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+/* Même apparence que les libellés de groupe des Compétences, sur un vrai titre de niveau 3. */
+.journey-group-label {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Frise : un trait vertical et un point par étape ; l'étape en cours a un point plein. */
+.journey-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3svh, 1.75rem);
+  margin: 0;
+  padding: 0 0 0 1.5rem;
+  border-left: 2px solid var(--border);
+  list-style: none;
+}
+
+.journey-item {
+  position: relative;
+}
+
+.journey-item::before {
+  position: absolute;
+  top: 0.3rem;
+  left: calc(-1.5rem - 7px);
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg-primary);
+  content: "";
+}
+
+.journey-item.is-current::before {
+  background: var(--accent);
+}
+
+.journey-period,
+.journey-title,
+.journey-meta,
+.certification-title,
+.certification-meta {
+  margin: 0;
+}
+
+.journey-period {
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-title {
+  margin-top: 0.3rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.journey-meta,
+.certification-meta {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.certification-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.6rem, 1.5svh, 0.9rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.certification-card {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--bg-card);
+}
+
+.certification-badge {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+/* Emplacement du badge d'une certification en cours : même taille, pour garder l'alignement. */
+.certification-badge--pending {
+  border: 2px dashed var(--border);
+  border-radius: 0.9rem;
+}
+
+.certification-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.certification-link {
+  display: inline-block;
+  margin-top: 0.45rem;
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.certification-link:hover {
+  color: var(--accent-hover);
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 860px) {
+  .journey-groups {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .certification-card {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .certification-badge {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}

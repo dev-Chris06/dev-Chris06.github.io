@@ -4,6 +4,7 @@
  *     {{html:nom}} bloc HTML produit par ce script) ;
  *   - src/i18n.js : textes des deux langues ;
  *   - src/projects.js : données des projets ;
+ *   - src/journey.js : formation et certifications (section Parcours) ;
  *   - src/css/*.css : feuilles de style, réunies dans css/site.css.
  *
  * Une URL par langue (recommandation de Google pour les sites multilingues) :
@@ -23,6 +24,7 @@ const ROOT = path.join(__dirname, "..");
 const SITE_URL = "https://dev-Chris06.github.io";
 const translations = require("../src/i18n.js");
 const projects = require("../src/projects.js");
+const journey = require("../src/journey.js");
 
 const LANGS = {
   fr: { prefix: "", locale: "fr_FR", name: "Français", privacy: "confidentialite.html", projectsDir: "projets" },
@@ -39,7 +41,7 @@ const GENERATED_DIRS = ["projets", "en"];
 // (Lighthouse mobile, réseau réellement ralenti, médiane de 5).
 const CSS_FILES = [
   "style.css", "nav.css", "hero.css", "about.css", "projects.css", "skills.css",
-  "services.css", "contact.css", "footer.css", "privacy.css", "motion.css",
+  "journey.css", "services.css", "contact.css", "footer.css", "privacy.css", "motion.css",
 ];
 
 const usedKeys = new Set();
@@ -227,6 +229,74 @@ function buildProjectCards(page) {
     .join("\n");
 }
 
+/** Texte d'une entrée du parcours dans la langue demandée ; s'arrête si une langue manque. */
+function journeyText(value, field, lang) {
+  const text = typeof value === "string" ? value : value?.[lang];
+  if (!text) {
+    throw new Error(`Champ "${field}" manquant en ${lang} dans src/journey.js`);
+  }
+  return text;
+}
+
+/** « Juin 2025 » / « June 2025 » à partir d'une date AAAA-MM-JJ (fuseau UTC : pas de décalage de jour). */
+function formatMonth(isoDate, lang) {
+  const [year, month] = isoDate.split("-").map(Number);
+  const label = new Intl.DateTimeFormat(lang, { month: "long", year: "numeric", timeZone: "UTC" })
+    .format(new Date(Date.UTC(year, month - 1, 1)));
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+function buildEducation(lang) {
+  return journey.education
+    .map((entry) => {
+      const title = escapeHtml(journeyText(entry.title, "title", lang));
+      const school = escapeHtml(journeyText(entry.school, "school", lang));
+      const status = entry.inProgress
+        ? ` · ${escapeHtml(t(lang, "journey.inProgress"))}, ${escapeHtml(t(lang, "journey.expected").replace("{year}", entry.end))}`
+        : "";
+      return `                <li class="journey-item${entry.inProgress ? " is-current" : ""}">
+                  <p class="journey-period"><time datetime="${entry.start}">${entry.start}</time> – <time datetime="${entry.end}">${entry.end}</time></p>
+                  <p class="journey-title">${title}</p>
+                  <p class="journey-meta">${school}${status}</p>
+                </li>`;
+    })
+    .join("\n");
+}
+
+function buildCertifications(page) {
+  const { lang } = page;
+  return journey.certifications
+    .map((cert) => {
+      const title = escapeHtml(journeyText(cert.title, "title", lang));
+      const issuer = escapeHtml(journeyText(cert.issuer, "issuer", lang));
+      if (cert.inProgress) {
+        return `                <li class="certification-card is-current">
+                  <span class="certification-badge certification-badge--pending" aria-hidden="true"></span>
+                  <div class="certification-body">
+                    <p class="certification-title" lang="en">${title}</p>
+                    <p class="certification-meta">${issuer} · ${escapeHtml(t(lang, "journey.inProgress"))}</p>
+                  </div>
+                </li>`;
+      }
+      if (!cert.issued || !cert.url || !cert.image) {
+        throw new Error(`Certification "${cert.title}" : issued, url et image sont obligatoires (src/journey.js)`);
+      }
+      if (!fs.existsSync(path.join(ROOT, "assets/img/badges", cert.image))) {
+        throw new Error(`Image de badge introuvable : assets/img/badges/${cert.image}`);
+      }
+      // Le badge est décoratif : le titre et le lien de vérification disent déjà tout.
+      return `                <li class="certification-card">
+                  <img class="certification-badge" src="${page.root}assets/img/badges/${escapeHtml(cert.image)}" alt="" width="72" height="72" loading="lazy" decoding="async">
+                  <div class="certification-body">
+                    <p class="certification-title" lang="en">${title}</p>
+                    <p class="certification-meta">${issuer} · <time datetime="${cert.issued}">${escapeHtml(formatMonth(cert.issued, lang))}</time></p>
+                    <a class="certification-link" href="${escapeHtml(cert.url)}" target="_blank" rel="noopener">${escapeHtml(t(lang, "journey.verify"))}<span class="visually-hidden"> : ${title}</span> <span aria-hidden="true">→</span></a>
+                  </div>
+                </li>`;
+    })
+    .join("\n");
+}
+
 function commonVars(page, templateName) {
   const { lang } = page;
   return {
@@ -255,9 +325,21 @@ function homeVars(page) {
     url: publicUrl(page.path),
     jobTitle: t(page.lang, "meta.jobTitle"),
     sameAs: ["https://github.com/dev-Chris06", "https://linkedin.com/in/christopher-aho-glele"],
+    // Certifications obtenues et vérifiables (schema.org EducationalOccupationalCredential).
+    hasCredential: journey.certifications
+      .filter((cert) => !cert.inProgress)
+      .map((cert) => ({
+        "@type": "EducationalOccupationalCredential",
+        name: cert.title,
+        url: cert.url,
+        dateCreated: cert.issued,
+        recognizedBy: { "@type": "Organization", name: cert.issuer },
+      })),
   };
   return {
     projectCards: buildProjectCards(page),
+    education: buildEducation(page.lang),
+    certifications: buildCertifications({ lang: page.lang, root: rootPrefix(page.path) }),
     jsonLd: `<script type="application/ld+json">\n${scriptJson(jsonLd)}\n    </script>`,
   };
 }

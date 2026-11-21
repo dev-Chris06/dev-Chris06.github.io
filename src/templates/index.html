@@ -63,6 +63,10 @@
                   >{{t:nav.skills}}</a>
               </li>
               <li>
+                <a class="nav-link" href="#journey"
+                  >{{t:nav.journey}}</a>
+              </li>
+              <li>
                 <a class="nav-link" href="#services"
                   >{{t:nav.services}}</a>
               </li>
@@ -131,22 +135,34 @@
           </div>
         </div>
       </section>
-      <section id="about" class="about-section">
+      <section id="about" class="home-section about-section">
         <div class="container about-grid">
           <div class="about-heading">
             <p class="section-kicker">{{t:about.kicker}}</p>
             <h2 class="section-title">{{t:about.title}}</h2>
           </div>
           <div class="about-copy">
-            <p>{{t:about.description}}</p>
+            <p>{{t:about.p1}}</p>
+            <p>{{t:about.p2}}</p>
+            <p>{{t:about.p3}}</p>
             <ul class="about-facts">
-              <li>{{t:about.fact.languages}}</li>
-              <li>{{t:about.fact.availability}}</li>
+              <li class="about-fact">
+                <span class="about-fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
+                <span class="about-fact-text"><span class="about-fact-label">{{t:about.fact.locationLabel}}</span><span class="visually-hidden"> : </span><span class="about-fact-value">{{t:about.fact.location}}</span></span>
+              </li>
+              <li class="about-fact">
+                <span class="about-fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg></span>
+                <span class="about-fact-text"><span class="about-fact-label">{{t:about.fact.languagesLabel}}</span><span class="visually-hidden"> : </span><span class="about-fact-value">{{t:about.fact.languages}}</span></span>
+              </li>
+              <li class="about-fact">
+                <span class="about-fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg></span>
+                <span class="about-fact-text"><span class="about-fact-label">{{t:about.fact.availabilityLabel}}</span><span class="visually-hidden"> : </span><span class="about-fact-value">{{t:about.fact.availability}}</span></span>
+              </li>
             </ul>
           </div>
         </div>
       </section>
-      <section id="projects" class="projects-section">
+      <section id="projects" class="home-section projects-section">
         <div class="container">
           <div class="section-heading-row">
             <div>
@@ -160,7 +176,7 @@
           </div>
         </div>
       </section>
-      <section id="skills" class="skills-section">
+      <section id="skills" class="home-section skills-section">
         <div class="container skills-layout">
           <div>
             <p class="section-kicker">{{t:skills.kicker}}</p>
@@ -205,7 +221,31 @@
           </div>
         </div>
       </section>
-      <section id="services" class="services-section">
+      <section id="journey" class="home-section journey-section">
+        <div class="container">
+          <div class="section-heading-row">
+            <div>
+              <p class="section-kicker">{{t:journey.kicker}}</p>
+              <h2 class="section-title">{{t:journey.title}}</h2>
+            </div>
+          </div>
+          <div class="journey-groups">
+            <div class="journey-group">
+              <h3 id="journey-education" class="journey-group-label">{{t:journey.education}}</h3>
+              <ol class="journey-timeline" aria-labelledby="journey-education">
+{{html:education}}
+              </ol>
+            </div>
+            <div class="journey-group">
+              <h3 id="journey-certifications" class="journey-group-label">{{t:journey.certifications}}</h3>
+              <ul class="certification-list" aria-labelledby="journey-certifications">
+{{html:certifications}}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="services" class="home-section services-section">
         <div class="container">
           <div class="section-heading-row">
             <div>
@@ -256,7 +296,7 @@
           </div>
         </div>
       </section>
-      <section id="contact" class="contact-section">
+      <section id="contact" class="home-section contact-section">
         <div class="container contact-grid">
           <div class="contact-info">
             <h2 class="section-title">{{t:contact.title}}</h2>
@@ -311,31 +351,33 @@
             >
               <input type="hidden" name="_subject" value="Portfolio contact" />
               <input type="text" name="_honey" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
-              <div class="form-field">
-                <label for="contact-name"
-                  >{{t:contact.name}}</label>
-                <input
-                  id="contact-name"
-                  name="name"
-                  type="text"
-                  autocomplete="name"
-                  maxlength="100"
-                  required
-                  placeholder="{{t:contact.namePlaceholder}}"
-                />
-              </div>
-              <div class="form-field">
-                <label for="contact-email"
-                  >{{t:contact.email}}</label>
-                <input
-                  id="contact-email"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                  maxlength="254"
-                  required
-                  placeholder="{{t:contact.emailPlaceholder}}"
-                />
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="contact-name"
+                    >{{t:contact.name}}</label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    maxlength="100"
+                    required
+                    placeholder="{{t:contact.namePlaceholder}}"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="contact-email"
+                    >{{t:contact.email}}</label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                    placeholder="{{t:contact.emailPlaceholder}}"
+                  />
+                </div>
               </div>
               <div class="form-field">
                 <label for="contact-subject"
@@ -408,6 +450,10 @@
             <li>
               <a class="footer-link" href="#skills"
                 >{{t:nav.skills}}</a>
+            </li>
+            <li>
+              <a class="footer-link" href="#journey"
+                >{{t:nav.journey}}</a>
             </li>
             <li>
               <a class="footer-link" href="#services"

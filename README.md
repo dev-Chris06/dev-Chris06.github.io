@@ -22,7 +22,8 @@ portfolio/
 │   ├── templates/             # Structure des pages (index, privacy, project, 404)
 │   ├── css/                   # Feuilles de style par section (style, nav, hero, projects, motion…)
 │   ├── i18n.js                # Tous les textes, en français et en anglais
-│   └── projects.js            # Données des projets (FR/EN)
+│   ├── projects.js            # Données des projets (FR/EN)
+│   └── journey.js             # Section Parcours : formation et certifications (FR/EN)
 ├── scripts/
 │   └── build.js               # Génère les pages HTML des deux langues, css/site.css et sitemap.xml
 │
@@ -45,6 +46,7 @@ portfolio/
     ├── apple-touch-icon.png   # Icône de l’écran d’accueil iPhone/iPad (180 × 180)
     ├── icons/                 # Logos des technologies (SVG servis par le site)
     └── img/                   # Images de partage social (og-image.png, og-image-en.png, og/<slug>.png)
+        └── badges/            # Badges des certifications (WebP 192 × 192, affichés en 72 px)
 ```
 
 Le CV n’est pas encore fourni. Ajouter le fichier avant de réintroduire un lien de téléchargement.
@@ -209,7 +211,18 @@ Un projet n’est ajouté que s’il a une V1 ou un MVP qui fonctionne : dépôt
 
 ---
 
-## 7. Ajouter / modifier une traduction
+## 7. Ajouter une formation ou une certification
+
+- **Fichier** : `src/journey.js` (tableaux `education` et `certifications`, du plus récent au plus ancien), puis `node scripts/build.js`.
+- **Formation** : `start`, `end` (année de fin, prévue si `inProgress: true`), `title` en `fr` et `en`, `school`.
+- **Certification obtenue** : `title` (intitulé officiel, affiché tel quel dans les deux langues), `issuer`, `issued` (date de délivrance `AAAA-MM-JJ`, celle de la page Credly), `url` (lien public Credly : *Share* → *Copy link*) et `image`.
+- **Certification en cours** : `inProgress: true`, sans date, lien ni image. Une fois obtenue, retire `inProgress` et ajoute les quatre champs ci-dessus.
+- **Badge** : l'image officielle se récupère depuis la page publique Credly ; enregistre-la dans `assets/img/badges/` en WebP 192 × 192 px. La génération s'arrête si l'image ou un champ obligatoire manque.
+- Les certifications obtenues sont aussi déclarées aux moteurs de recherche (`hasCredential` dans les données structurées de l'accueil).
+
+---
+
+## 8. Ajouter / modifier une traduction
 
 1. Ouvre `src/i18n.js`
 2. Ajoute la même clé dans `fr` **et** `en`
@@ -222,15 +235,15 @@ Cas particulier : `footer.copyright` contient le marqueur `{year}`, remplacé pa
 
 ---
 
-## 8. Limitations connues
+## 9. Limitations connues
 
 - **Pas de backend applicatif** : le formulaire transmet ses champs à FormSubmit, qui les envoie par email. Au premier envoi, confirmer l’adresse de réception dans le message d’activation reçu.
-- **Pas de CMS** : contenu géré en fichiers (`src/i18n.js`, `src/projects.js`, `src/templates/`)
+- **Pas de CMS** : contenu géré en fichiers (`src/i18n.js`, `src/projects.js`, `src/journey.js`, `src/templates/`)
 - **Génération manuelle** : `node scripts/build.js` doit être lancé avant de committer ; pas de minification (volontairement simple)
 
 ---
 
-## 9. Améliorations possibles
+## 10. Améliorations possibles
 
 - **Formulaire** : confirmer le premier envoi FormSubmit et vérifier la réception d’un message réel.
 - **CMS headless** : *Contentful* / *Sanity* (si beaucoup de contenu à éditer)
@@ -239,14 +252,14 @@ Cas particulier : `footer.copyright` contient le marqueur `{year}`, remplacé pa
 
 ---
 
-## 10. Licence
+## 11. Licence
 
 Le code est publié sous licence MIT (voir [LICENSE](LICENSE)).
 
 Les textes du site, ma présentation personnelle, mon nom et le logo « CG » ne
 sont pas couverts par cette licence : ils ne peuvent pas être réutilisés.
 
-## 11. Contact
+## 12. Contact
 
 **Mahudjro Shridara Christopher AHO GLELE**  
 GitHub : [https://github.com/dev-Chris06](https://github.com/dev-Chris06)

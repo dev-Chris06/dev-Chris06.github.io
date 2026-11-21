@@ -1,4 +1,4 @@
-.contact-section { padding-block:clamp(4.5rem,9vw,7.5rem); background:var(--bg-soft); }
+.contact-section { background:var(--bg-soft); }
 .contact-grid { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(2rem,7vw,6rem); align-items:start; }
 .contact-info .section-title { margin-top:0; }
 .contact-subtitle { max-width:35ch; color:var(--text-muted); line-height:1.7; }
@@ -12,12 +12,14 @@
 .social-button--linkedin svg { color:#0A66C2; }
 .social-button--github svg { color:#24292F; }
 :root[data-theme="dark"] .social-button--github svg { color:#f0f6fc; }
-.contact-form-wrap { padding:clamp(1.2rem,3vw,2rem); border:1px solid var(--border); border-radius:1rem; background:var(--bg-card); box-shadow:var(--shadow-soft); }
-#contact-form { display:grid; gap:1rem; }
-.form-field { display:grid; gap:.45rem; }
+.contact-form-wrap { padding:clamp(1.1rem, min(3vw, 3.5svh), 2rem); border:1px solid var(--border); border-radius:1rem; background:var(--bg-card); box-shadow:var(--shadow-soft); }
+#contact-form { display:grid; gap:clamp(.7rem, 1.8svh, 1rem); }
+/* Nom et e-mail côte à côte sur grand écran : le formulaire entier tient sur un portable. */
+.form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:inherit; }
+.form-field { display:grid; gap:.4rem; }
 .form-field label { color:var(--text-primary); font-size:.9rem; font-weight:650; }
 .form-field input,.form-field select,.form-field textarea { width:100%; min-height:2.9rem; padding:.75rem .85rem; border:1px solid var(--field-border); border-radius:.5rem; background:var(--field-bg); color:var(--text-primary); font:inherit; }
-.form-field textarea { min-height:8rem; resize:vertical; }
+.form-field textarea { height:clamp(5rem, 15svh, 8rem); min-height:4.5rem; resize:vertical; }
 .form-field input:focus,.form-field select:focus,.form-field textarea:focus { border-color:var(--accent); outline:3px solid rgba(36,87,181,.18); }
 :root[data-theme="dark"] .form-field input:focus,
 :root[data-theme="dark"] .form-field select:focus,
@@ -35,3 +37,4 @@
 .form-feedback.is-error { color:var(--error); }
 .form-feedback.is-success { color:var(--success); }
 @media(max-width:760px){.contact-grid{grid-template-columns:1fr}}
+@media(max-width:1100px){.form-row{grid-template-columns:1fr}}

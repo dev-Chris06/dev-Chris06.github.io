@@ -56,6 +56,24 @@ html {
   scroll-padding-top: 4.5rem;
 }
 
+/* Espacement vertical des sections : il suit aussi la hauteur de l'écran (svh), pour qu'une section
+   atteinte par le menu montre son contenu principal sur un portable (environ 650 px de haut utiles).
+   La marge de défilement négative saute l’espace du haut : le petit titre arrive à 1,25rem sous le menu. */
+.home-section {
+  --section-space: clamp(3.5rem, min(9vw, 13svh), 7.5rem);
+  padding-block: var(--section-space);
+  scroll-margin-top: calc(1.25rem - var(--section-space));
+}
+
+/* Sur ordinateur, une section atteinte par le menu occupe toute la fenêtre : la suivante n'apparaît
+   pas en bas. Hauteur visible = fenêtre − menu (4.5rem) − écart sous le menu (1.25rem) ; on y ajoute
+   l'espace du haut sauté par la marge de défilement. Sur téléphone, le défilement reste naturel. */
+@media (min-width: 761px) {
+  .home-section {
+    min-height: calc(100svh - 5.75rem + var(--section-space));
+  }
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
@@ -152,7 +170,7 @@ a:hover {
   margin: 0;
   color: var(--text-primary);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: clamp(2rem, min(4vw, 7svh), 3.2rem);
   font-weight: 500;
   letter-spacing: -0.045em;
   line-height: 1.08;

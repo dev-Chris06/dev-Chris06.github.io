@@ -1,4 +1,4 @@
-.skills-section { padding-block:clamp(4rem,8vw,6.5rem); background:color-mix(in srgb, var(--bg-secondary) 72%, transparent); }
+.skills-section { background:color-mix(in srgb, var(--bg-secondary) 72%, transparent); }
 .skills-layout { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:2rem; align-items:start; }
 .skills-groups { display:flex; flex-direction:column; gap:1.5rem; }
 .skills-group-label { font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); margin:0 0 .6rem; }
