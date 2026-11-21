@@ -68,6 +68,15 @@ html {
   scroll-margin-top: calc(1.25rem - var(--section-space));
 }
 
+/* Sur ordinateur, une section atteinte par le menu occupe toute la fenêtre : la suivante n'apparaît
+   pas en bas. Hauteur visible = fenêtre − menu (4.5rem) − écart sous le menu (1.25rem) ; on y ajoute
+   l'espace du haut sauté par la marge de défilement. Sur téléphone, le défilement reste naturel. */
+@media (min-width: 761px) {
+  .home-section {
+    min-height: calc(100svh - 5.75rem + var(--section-space));
+  }
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
@@ -446,7 +455,8 @@ header {
 
 .hero-section {
   display: flex;
-  min-height: min(48rem, calc(88svh - 4.5rem));
+  /* Remplit la fenêtre sous le menu : la section suivante n'apparaît qu'au défilement. */
+  min-height: calc(100svh - 4.5rem);
   align-items: center;
   /* Suit la hauteur de l'écran : tout l'accueil, boutons compris, tient sur un portable. */
   padding-block: clamp(2rem, min(10vw, 7svh), 8rem);
@@ -679,18 +689,62 @@ header {
   margin-top: 1.1rem;
 }
 
-/* Faits sous la présentation, un par ligne : trop longs pour tenir sur une seule ligne,
-   et un séparateur ne doit jamais rester seul en bout de ligne. */
+/* Faits sous la présentation : icône, libellé et valeur, sur trois colonnes séparées du texte par un filet.
+   La disponibilité, plus longue, a la colonne la plus large. */
 .about-facts {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin: 1.5rem 0 0;
-  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 1rem 1.5rem;
+  margin: clamp(1.25rem, 3svh, 1.75rem) 0 0;
+  padding: clamp(1.1rem, 2.6svh, 1.5rem) 0 0;
+  border-top: 1px solid var(--border);
   list-style: none;
+}
+
+.about-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+/* Même pastille que les icônes des Services, en plus petit. */
+.about-fact-icon {
+  display: grid;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 0.6rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.about-fact-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.about-fact-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.about-fact-value {
+  display: block;
+  margin-top: 0.2rem;
   color: var(--text-primary);
   font-size: 0.95rem;
   font-weight: 600;
+  line-height: 1.45;
 }
 
 @media (max-width: 760px) {
@@ -701,6 +755,10 @@ header {
 
   .about-heading .section-title {
     max-width: 16ch;
+  }
+
+  .about-facts {
+    grid-template-columns: 1fr;
   }
 }
 

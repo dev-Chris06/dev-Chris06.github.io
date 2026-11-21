@@ -2,7 +2,8 @@
 
 .hero-section {
   display: flex;
-  min-height: min(48rem, calc(88svh - 4.5rem));
+  /* Remplit la fenêtre sous le menu : la section suivante n'apparaît qu'au défilement. */
+  min-height: calc(100svh - 4.5rem);
   align-items: center;
   /* Suit la hauteur de l'écran : tout l'accueil, boutons compris, tient sur un portable. */
   padding-block: clamp(2rem, min(10vw, 7svh), 8rem);

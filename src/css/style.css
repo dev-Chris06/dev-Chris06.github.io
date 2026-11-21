@@ -65,6 +65,15 @@ html {
   scroll-margin-top: calc(1.25rem - var(--section-space));
 }
 
+/* Sur ordinateur, une section atteinte par le menu occupe toute la fenêtre : la suivante n'apparaît
+   pas en bas. Hauteur visible = fenêtre − menu (4.5rem) − écart sous le menu (1.25rem) ; on y ajoute
+   l'espace du haut sauté par la marge de défilement. Sur téléphone, le défilement reste naturel. */
+@media (min-width: 761px) {
+  .home-section {
+    min-height: calc(100svh - 5.75rem + var(--section-space));
+  }
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
