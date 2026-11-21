@@ -655,7 +655,7 @@ header {
 }
 
 .about-heading .section-title {
-  max-width: 11ch;
+  max-width: 15ch;
 }
 
 .about-copy > p {
@@ -666,23 +666,22 @@ header {
   line-height: 1.75;
 }
 
-/* Ligne de faits sous la présentation : séparateurs décoratifs en CSS, la liste reste lisible telle quelle. */
+.about-copy > p + p {
+  margin-top: 1.1rem;
+}
+
+/* Faits sous la présentation, un par ligne : trop longs pour tenir sur une seule ligne,
+   et un séparateur ne doit jamais rester seul en bout de ligne. */
 .about-facts {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0;
+  flex-direction: column;
+  gap: 0.35rem;
   margin: 1.5rem 0 0;
   padding: 0;
   list-style: none;
   color: var(--text-primary);
   font-size: 0.95rem;
   font-weight: 600;
-}
-
-.about-facts li:not(:last-child)::after {
-  margin-inline: 0.65rem;
-  color: var(--text-muted);
-  content: "·";
 }
 
 @media (max-width: 760px) {
@@ -693,15 +692,6 @@ header {
 
   .about-heading .section-title {
     max-width: 16ch;
-  }
-
-  /* Sur petit écran, un fait par ligne : un séparateur ne resterait pas seul en bout de ligne. */
-  .about-facts {
-    flex-direction: column;
-  }
-
-  .about-facts li:not(:last-child)::after {
-    content: none;
   }
 }
 
@@ -778,6 +768,174 @@ header {
 /* Le thème sombre (choisi ou hérité du système, voir scripts/build.js) éclaircit les logos monochromes. */
 :root[data-theme="dark"] .skill-icon-invert { filter:brightness(0) invert(1); }
 @media(max-width:700px){.skills-layout{grid-template-columns:1fr}}
+
+/* --- src/css/journey.css --- */
+/* Parcours : frise de la formation et cartes de certifications (données : src/journey.js) */
+
+.journey-section {
+  padding-block: clamp(4.5rem, 9vw, 7.5rem);
+  background: color-mix(in srgb, var(--bg-soft) 72%, transparent);
+}
+
+/* Même grille que la section Compétences : titre à gauche, contenu à droite. */
+.journey-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.journey-heading .section-title {
+  max-width: 14ch;
+}
+
+.journey-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Même apparence que les libellés de groupe des Compétences, sur un vrai titre de niveau 3. */
+.journey-group-label {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Frise : un trait vertical et un point par étape ; l'étape en cours a un point plein. */
+.journey-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0 0 0 1.5rem;
+  border-left: 2px solid var(--border);
+  list-style: none;
+}
+
+.journey-item {
+  position: relative;
+}
+
+.journey-item::before {
+  position: absolute;
+  top: 0.3rem;
+  left: calc(-1.5rem - 7px);
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg-primary);
+  content: "";
+}
+
+.journey-item.is-current::before {
+  background: var(--accent);
+}
+
+.journey-period,
+.journey-title,
+.journey-meta,
+.certification-title,
+.certification-meta {
+  margin: 0;
+}
+
+.journey-period {
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-title {
+  margin-top: 0.3rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.journey-meta,
+.certification-meta {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.certification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.certification-card {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--bg-card);
+}
+
+.certification-badge {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+/* Emplacement du badge d'une certification en cours : même taille, pour garder l'alignement. */
+.certification-badge--pending {
+  border: 2px dashed var(--border);
+  border-radius: 0.9rem;
+}
+
+.certification-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.certification-link {
+  display: inline-block;
+  margin-top: 0.45rem;
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.certification-link:hover {
+  color: var(--accent-hover);
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 700px) {
+  .journey-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .certification-card {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .certification-badge {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
 
 /* --- src/css/services.css --- */
 .services-section { padding-block:clamp(4.5rem,9vw,7.5rem); background:color-mix(in srgb, var(--bg-primary) 72%, transparent); }

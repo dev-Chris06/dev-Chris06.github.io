@@ -63,6 +63,10 @@
                   >{{t:nav.skills}}</a>
               </li>
               <li>
+                <a class="nav-link" href="#journey"
+                  >{{t:nav.journey}}</a>
+              </li>
+              <li>
                 <a class="nav-link" href="#services"
                   >{{t:nav.services}}</a>
               </li>
@@ -138,8 +142,11 @@
             <h2 class="section-title">{{t:about.title}}</h2>
           </div>
           <div class="about-copy">
-            <p>{{t:about.description}}</p>
+            <p>{{t:about.p1}}</p>
+            <p>{{t:about.p2}}</p>
+            <p>{{t:about.p3}}</p>
             <ul class="about-facts">
+              <li>{{t:about.fact.location}}</li>
               <li>{{t:about.fact.languages}}</li>
               <li>{{t:about.fact.availability}}</li>
             </ul>
@@ -200,6 +207,28 @@
                 <li>VLAN</li>
                 <li>{{t:skills.routing}}</li>
                 <li>Cisco Packet Tracer</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="journey" class="journey-section">
+        <div class="container journey-layout">
+          <div class="journey-heading">
+            <p class="section-kicker">{{t:journey.kicker}}</p>
+            <h2 class="section-title">{{t:journey.title}}</h2>
+          </div>
+          <div class="journey-groups">
+            <div class="journey-group">
+              <h3 id="journey-education" class="journey-group-label">{{t:journey.education}}</h3>
+              <ol class="journey-timeline" aria-labelledby="journey-education">
+{{html:education}}
+              </ol>
+            </div>
+            <div class="journey-group">
+              <h3 id="journey-certifications" class="journey-group-label">{{t:journey.certifications}}</h3>
+              <ul class="certification-list" aria-labelledby="journey-certifications">
+{{html:certifications}}
               </ul>
             </div>
           </div>
@@ -408,6 +437,10 @@
             <li>
               <a class="footer-link" href="#skills"
                 >{{t:nav.skills}}</a>
+            </li>
+            <li>
+              <a class="footer-link" href="#journey"
+                >{{t:nav.journey}}</a>
             </li>
             <li>
               <a class="footer-link" href="#services"
