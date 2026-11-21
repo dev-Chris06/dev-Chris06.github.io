@@ -135,7 +135,7 @@
           </div>
         </div>
       </section>
-      <section id="about" class="about-section">
+      <section id="about" class="home-section about-section">
         <div class="container about-grid">
           <div class="about-heading">
             <p class="section-kicker">{{t:about.kicker}}</p>
@@ -153,7 +153,7 @@
           </div>
         </div>
       </section>
-      <section id="projects" class="projects-section">
+      <section id="projects" class="home-section projects-section">
         <div class="container">
           <div class="section-heading-row">
             <div>
@@ -167,7 +167,7 @@
           </div>
         </div>
       </section>
-      <section id="skills" class="skills-section">
+      <section id="skills" class="home-section skills-section">
         <div class="container skills-layout">
           <div>
             <p class="section-kicker">{{t:skills.kicker}}</p>
@@ -212,11 +212,13 @@
           </div>
         </div>
       </section>
-      <section id="journey" class="journey-section">
-        <div class="container journey-layout">
-          <div class="journey-heading">
-            <p class="section-kicker">{{t:journey.kicker}}</p>
-            <h2 class="section-title">{{t:journey.title}}</h2>
+      <section id="journey" class="home-section journey-section">
+        <div class="container">
+          <div class="section-heading-row">
+            <div>
+              <p class="section-kicker">{{t:journey.kicker}}</p>
+              <h2 class="section-title">{{t:journey.title}}</h2>
+            </div>
           </div>
           <div class="journey-groups">
             <div class="journey-group">
@@ -234,7 +236,7 @@
           </div>
         </div>
       </section>
-      <section id="services" class="services-section">
+      <section id="services" class="home-section services-section">
         <div class="container">
           <div class="section-heading-row">
             <div>
@@ -285,7 +287,7 @@
           </div>
         </div>
       </section>
-      <section id="contact" class="contact-section">
+      <section id="contact" class="home-section contact-section">
         <div class="container contact-grid">
           <div class="contact-info">
             <h2 class="section-title">{{t:contact.title}}</h2>
@@ -340,31 +342,33 @@
             >
               <input type="hidden" name="_subject" value="Portfolio contact" />
               <input type="text" name="_honey" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
-              <div class="form-field">
-                <label for="contact-name"
-                  >{{t:contact.name}}</label>
-                <input
-                  id="contact-name"
-                  name="name"
-                  type="text"
-                  autocomplete="name"
-                  maxlength="100"
-                  required
-                  placeholder="{{t:contact.namePlaceholder}}"
-                />
-              </div>
-              <div class="form-field">
-                <label for="contact-email"
-                  >{{t:contact.email}}</label>
-                <input
-                  id="contact-email"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                  maxlength="254"
-                  required
-                  placeholder="{{t:contact.emailPlaceholder}}"
-                />
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="contact-name"
+                    >{{t:contact.name}}</label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    maxlength="100"
+                    required
+                    placeholder="{{t:contact.namePlaceholder}}"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="contact-email"
+                    >{{t:contact.email}}</label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                    placeholder="{{t:contact.emailPlaceholder}}"
+                  />
+                </div>
               </div>
               <div class="form-field">
                 <label for="contact-subject"

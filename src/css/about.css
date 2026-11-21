@@ -1,7 +1,6 @@
 /* Présentation personnelle et informations factuelles */
 
 .about-section {
-  padding-block: clamp(4.5rem, 9vw, 7.5rem);
   background: color-mix(in srgb, var(--bg-soft) 72%, transparent);
 }
 
@@ -24,7 +23,7 @@
   max-width: 60ch;
   margin: 0;
   color: var(--text-muted);
-  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  font-size: clamp(1.05rem, min(1.8vw, 2.9svh), 1.3rem);
   line-height: 1.75;
 }
 

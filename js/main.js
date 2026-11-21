@@ -167,7 +167,7 @@ function initReveal() {
   if (reduceMotion || !("IntersectionObserver" in window)) return;
 
   const targets = document.querySelectorAll(
-    ".section-heading-row, .about-grid, .skills-layout, .journey-layout, .service-card, .project-card, .contact-grid, " +
+    ".section-heading-row, .about-grid, .skills-layout, .journey-groups, .service-card, .project-card, .contact-grid, " +
     ".project-overview-layout, .project-detail-card, .project-note"
   );
   const observer = new IntersectionObserver((entries) => {
